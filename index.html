@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Punto de venta — Editorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#1F3A5F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mostrador">
+<link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA7UlEQVR4nGOUt4r/zzCAgGkgLR91wKBwAAuMIWv4GkNyW9N0FL5XXSbJatDlYUDXt46BgWEQhMCoA0YdMOqAUQfAHfD4vCiGJKy0okQNujy6GEoIYLMAHyBVPTYHYUQBzFAYDdMAo9HliVGDLo8MGMlpEcEqLmwVDTZL8IEBT4Qs6AJTPU8T1NTxQgGnHCH92dtNUfgoIUCM5ZQCdDswQoAYUCHxgIGBgYHh0DRPih0ET4Qwl91+9Amn4glXnRkKtPcSJY5LraocHwMDAyIq4CEAE8CmiZoAbxoYCDDqgAF3AFlFMTXBgIfAgDsAAGz2Uvisd1xcAAAAAElFTkSuQmCC">
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAEHElEQVR4nO3drZJcRRiA4RMqGocMwaCoiAhMLAqqcg3RFIYrWBGFxFC5k6C4AgQKhQNDVRw3ENQUWwvD/HWfOfPW8+hMz/l633R6N5PKo6cvXr1fIOKDaz8AjCRoUgRNiqBJETQpgiZF0KQImhRBkyJoUgRNiqBJETQpgiZF0KQImhRBkyJoUgRNiqBJETQpgiZF0KQImhRBkyJoUgRNiqBJeXzpAk+evxvxHHu9ff1m6vrLsixf3X09/T1mz1GYYefZy7uzX+uEJkXQpAiaFEGTImhSBE2KoEkRNCmCJkXQpAiaFEGTImhSBE2KoEkRNCmCJkXQpAiaFEGTImhSBE2KoEkRNCmCJkXQpAiaFEGTImhSBE2KoEkRNCmCJkXQpAiaFEGTImhSBE2KoEkRNCmCJkXQpAiaFEGTImhSBE2KoEkRNCmCJkXQpAiaFEGTImhSBE2KoEm5OOg/fvloxHPs9ezl3dT1l2X+DMsyf47CDCPeY8gJPWszd+vO3Mjd2jODmD1HYYZRa7tykDIs6NGnw8P1ZpwMD9ecccLNnqMww8g1h57QozZz3zojN3LfWiODmD1HYYbRaw2/cly6mYdeP2L4Q2uMCGL2HIUZRq1x303eodf4bvsSa/zE4RhbeY59ZnwdpwR97kae8rpzN+PY1xVmWJb5c6wxwymmndCnbuQWf466xWfa4s/lt/Qn5tQrx7Ebc244p2zkuZt+yrPNnqMww6m/9lQ3eYe+byunw9bvq1t5vtlfr+lBH9rIERt9aJMu3cTCDMsyf441ZjhklRN630aNPDX2bdaoTSzMsCzz51hjhv+z2pXj4YZt8RuuQ67xzFv8JvCQa14Db/4Ofd/aG7mVe+mp1n7uNb8uqwa928iZG7rbvFmbWJhhWebPscYM/+XR0xev3q/6jjBR6soBgibl8bUf4NY8ef7u5Ne8ff1mwpP8Yyt/ubQFTmhSBE2KoEkRNCmCJkXQpAiaFEGTImhSBE2KoEkRNCmCJmX6p+1++PLn2W+xqu/+/OTaj/Avt7bH3/z4+bS1p57Qt7bRrGNmF64cpEz7N4VOZw6ZcfVwQpMyJWinM8eY0cnwoMXMKUb34spBytCgnc6cY2Q3w4IWM5cY1Y8rBylDgnY6M8KIjpzQpFwctNOZkS7t6aKgxcwMl3TlykHK2R9OOvZ30W+//3XO8qv5/tcvlmVZlm8/+8n7r+TTjz886ted8+Glsz/gf+ybXesLxXbd7Af8YW2CJkXQpAiaFEGTImhSBE2KoEkRNCmCJkXQpAiaFEGTImhSBE2KoEkRNCmCJkXQpAiaFEGTImhSBE2KoEkRNCnT/p9CuAYnNCmCJkXQpAiaFEGTImhSBE2KoEkRNCmCJkXQpAiaFEGTImhSBE2KoEkRNCmCJuVvpb4Szl3FjaUAAAAASUVORK5CYII=">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.2.0/html5-qrcode.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+  try {
+    firebase.initializeApp({
+      apiKey: "AIzaSyA5Fj9tHGbt3jzs5KcRu0MH2fd_br2Ldzg",
+      authDomain: "editorial-en-feria.firebaseapp.com",
+      projectId: "editorial-en-feria",
+      storageBucket: "editorial-en-feria.firebasestorage.app",
+      messagingSenderId: "35277536497",
+      appId: "1:35277536497:web:c30008d6d135890249bd50"
+    });
+  } catch(e){ console.error('firebase init failed', e); }
+</script>
+<script type="module">
+  import { BarcodeDetector as BarcodeDetectorPolyfill } from "https://cdn.jsdelivr.net/npm/barcode-detector@2/dist/es/pure.min.js";
+  window.__ZXingBarcodeDetector = BarcodeDetectorPolyfill;
+</script>
+<style>
+  :root {
+    --paper: #F2EDE1; --paper-raised: #FCFAF4; --ink: #1F2A3A; --ink-soft: #5B6472;
+    --navy: #1F3A5F; --navy-deep: #14273F; --gold: #B4832A; --gold-soft: #E4D2A6;
+    --line: #DCD3BE; --red: #A23E33; --green: #3C6B4A;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #16191F; --paper-raised: #1E222A; --ink: #ECE7DA; --ink-soft: #A8A196;
+      --navy: #7FA0C9; --navy-deep: #ECE7DA; --gold: #D8AE55; --gold-soft: #3A331E;
+      --line: #303540; --red: #D9776A; --green: #6FBE8B;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #16191F; --paper-raised: #1E222A; --ink: #ECE7DA; --ink-soft: #A8A196;
+    --navy: #7FA0C9; --navy-deep: #ECE7DA; --gold: #D8AE55; --gold-soft: #3A331E;
+    --line: #303540; --red: #D9776A; --green: #6FBE8B;
+  }
+  html, body { height: 100%; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; min-height: 100%; }
+  h1, h2, h3, .serif { font-family: 'Newsreader', Georgia, serif; }
+  header { padding: 14px 20px 0; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; }
+  header .top { display: flex; align-items: baseline; justify-content: space-between; padding-bottom: 10px; }
+  header .brand { font-family: 'Newsreader', serif; font-size: 1.3rem; font-weight: 600; letter-spacing: 0.01em; }
+  header .brand em { font-style: italic; color: var(--gold); }
+  .mode-pill { font-size: 0.72rem; padding: 3px 9px 4px; border-radius: 999px; font-weight: 500; margin-bottom: 10px; align-self: flex-start; }
+  .mode-pill.shared { background: var(--gold-soft); color: var(--navy-deep); }
+  .mode-pill.local { background: transparent; border: 1px solid var(--line); color: var(--ink-soft); }
+  .pill-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 10px; }
+  .pill-row .mode-pill { margin-bottom: 0; }
+  button.mode-pill { font-family: inherit; cursor: pointer; }
+  main { flex: 1; overflow-y: auto; padding: 0 0 90px; }
+  .tab-panel { display: none; padding: 20px; max-width: 640px; margin: 0 auto; }
+  .tab-panel.active { display: block; }
+
+  .total-card { background: var(--navy); color: var(--paper-raised); border-radius: 18px; padding: 20px 22px; margin-bottom: 14px; position: relative; overflow: hidden; }
+  .total-card .label { font-size: 0.82rem; color: var(--gold-soft); letter-spacing: 0.02em; }
+  .total-card .amount { font-family: 'Newsreader', serif; font-size: 2.3rem; font-weight: 600; margin: 2px 0 2px; line-height: 1; }
+  .total-card .count { font-size: 0.85rem; color: #C9D3DF; }
+  .total-breakdown { font-size: 0.76rem; color: #A9B7C9; margin-top: 6px; }
+  .total-actions { display: flex; gap: 10px; margin-top: 16px; }
+  .total-actions button { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.22); color: var(--paper-raised); border-radius: 9px; padding: 8px 12px; font-size: 0.82rem; font-family: inherit; cursor: pointer; }
+  .total-actions button:disabled { opacity: 0.4; }
+
+  .scan-btn { width: 100%; padding: 18px; border-radius: 16px; border: none; cursor: pointer; background: var(--gold); color: var(--navy-deep); font-family: 'Newsreader', serif; font-size: 1.15rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 2px 0 rgba(0,0,0,0.08); }
+  .scan-btn svg { width: 22px; height: 22px; }
+  .scan-btn:disabled { opacity: 0.5; }
+  .cart-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--gold-soft); border: 1px solid var(--gold); border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; }
+  .cart-bar-info { display: flex; flex-direction: column; font-size: 0.82rem; color: var(--navy-deep); }
+  .cart-bar-info span:first-child { font-weight: 600; }
+  .cart-bar-btn { background: var(--navy); color: var(--paper-raised); border: none; border-radius: 9px; padding: 10px 16px; font-family: inherit; font-weight: 600; font-size: 0.9rem; cursor: pointer; white-space: nowrap; }
+  .compra-items { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; margin-bottom: 16px; max-height: 180px; overflow-y: auto; }
+  .compra-items .ci-row { display: flex; justify-content: space-between; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--line); font-size: 0.88rem; }
+  .compra-items .ci-row:last-child { border-bottom: none; }
+  .compra-items .ci-total { display: flex; justify-content: space-between; padding-top: 8px; margin-top: 4px; border-top: 1px solid var(--line); font-weight: 600; }
+  .purchase-group { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 12px; padding: 4px 14px; margin-bottom: 10px; }
+  .purchase-group .pg-head { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; font-size: 0.8rem; color: var(--ink-soft); }
+  .purchase-group .pg-head strong { color: var(--ink); }
+  .purchase-group .sale-row { padding: 8px 0; }
+  .purchase-group .sale-row:last-child { border-bottom: none; }
+  .discount-card { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; }
+  .discount-card.active { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold) inset; }
+  .discount-label { font-size: 0.8rem; color: var(--ink-soft); margin-bottom: 9px; }
+  .discount-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 10px; }
+  .discount-chips button { padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink-soft); font-family: inherit; font-size: 0.84rem; cursor: pointer; }
+  .discount-chips button.active { background: var(--gold); border-color: var(--gold); color: var(--navy-deep); font-weight: 600; }
+  .discount-chips button.prensa-chip.active { background: var(--red); border-color: var(--red); color: var(--paper-raised); }
+  .discount-custom { display: flex; gap: 8px; }
+  .discount-custom input { flex: 1; padding: 9px 12px; border-radius: 9px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font-family: inherit; font-size: 0.9rem; }
+  .discount-custom button { padding: 0 14px; border-radius: 9px; border: none; background: var(--navy); color: var(--paper-raised); font-family: inherit; font-size: 0.84rem; cursor: pointer; }
+  .sale-row .orig { text-decoration: line-through; color: var(--ink-soft); font-size: 0.82rem; margin-right: 6px; }
+  .sale-row .disc-tag { font-size: 0.72rem; background: var(--gold-soft); color: var(--navy-deep); padding: 1px 7px; border-radius: 999px; margin-left: 6px; }
+  .sale-row .pm-tag { font-size: 0.68rem; background: var(--line); color: var(--ink-soft); padding: 1px 7px; border-radius: 999px; margin-left: 6px; }
+  .manual-toggle { width: 100%; background: none; border: none; color: var(--ink-soft); font-family: inherit; font-size: 0.85rem; text-align: center; padding: 10px 0 2px; cursor: pointer; text-decoration: underline; }
+  .manual-row { display: none; gap: 8px; margin-top: 6px; }
+  .manual-row.open { display: flex; }
+  .manual-row input { flex: 1; padding: 11px 12px; border-radius: 9px; border: 1px solid var(--line); background: var(--paper-raised); color: var(--ink); font-family: inherit; font-size: 0.95rem; }
+  .manual-row button { padding: 0 16px; border-radius: 9px; border: none; background: var(--navy); color: var(--paper-raised); font-family: inherit; font-weight: 600; cursor: pointer; }
+
+  .sale-log { margin-top: 22px; }
+  .sale-log h3 { font-size: 0.95rem; font-weight: 500; color: var(--ink-soft); margin: 0 0 10px; }
+  .sale-row { display: flex; justify-content: space-between; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 0.92rem; }
+  .sale-row .t { color: var(--ink); }
+  .sale-row .p { color: var(--ink-soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .sale-row .p-wrap { display: flex; align-items: center; gap: 6px; }
+  .sale-row .del-sale-btn { background: none; border: none; color: var(--ink-soft); opacity: 0.55; cursor: pointer; font-size: 1rem; line-height: 1; padding: 2px 3px; }
+  .sale-row .del-sale-btn:hover, .sale-row .del-sale-btn:active { color: var(--red); opacity: 1; }
+  .empty-note { color: var(--ink-soft); font-size: 0.9rem; padding: 10px 0; }
+
+  .inv-search { width: 100%; padding: 11px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--paper-raised); color: var(--ink); font-family: inherit; font-size: 0.95rem; margin-bottom: 14px; }
+  .add-btn { width: 100%; padding: 13px; border-radius: 10px; border: 1px dashed var(--gold); background: transparent; color: var(--gold); font-family: inherit; font-size: 0.92rem; font-weight: 500; cursor: pointer; margin-bottom: 18px; }
+  .book-card { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
+  .book-card .row1 { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+  .book-card .titulo { font-family: 'Newsreader', serif; font-weight: 600; font-size: 1.05rem; }
+  .book-card .precio { font-variant-numeric: tabular-nums; color: var(--ink-soft); white-space: nowrap; font-size: 0.92rem; }
+  .book-card .row2 { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+  .book-card .isbn { font-family: 'IBM Plex Mono', monospace; font-size: 0.74rem; color: var(--ink-soft); }
+  .stock-pill { font-size: 0.8rem; padding: 3px 10px; border-radius: 999px; font-weight: 500; background: var(--gold-soft); color: var(--navy-deep); }
+  .stock-pill.zero { background: transparent; border: 1px solid var(--red); color: var(--red); }
+  .book-actions { display: flex; gap: 8px; margin-top: 10px; }
+  .book-actions button { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--line); background: transparent; color: var(--ink-soft); font-family: inherit; font-size: 0.82rem; cursor: pointer; }
+  .book-actions button.danger { color: var(--red); border-color: var(--red); }
+
+  nav.tabs { position: fixed; bottom: 0; left: 0; right: 0; display: flex; background: var(--paper-raised); border-top: 1px solid var(--line); padding: 10px 10px calc(10px + env(safe-area-inset-bottom, 0px)); gap: 6px; }
+  nav.tabs button { flex: 1; background: none; border: none; padding: 8px; border-radius: 10px; cursor: pointer; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.86rem; color: var(--ink-soft); }
+  nav.tabs button.active { color: var(--navy); font-weight: 600; background: var(--gold-soft); }
+
+  .overlay { position: fixed; inset: 0; background: rgba(15,17,20,0.6); display: none; align-items: flex-end; justify-content: center; z-index: 50; }
+  .overlay.open { display: flex; }
+  .sheet { background: var(--paper); width: 100%; max-width: 640px; border-radius: 20px 20px 0 0; padding: 22px 20px calc(22px + env(safe-area-inset-bottom, 0px)); max-height: 88vh; overflow-y: auto; }
+  .sheet h2 { margin: 0 0 16px; font-size: 1.2rem; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 0.82rem; color: var(--ink-soft); margin-bottom: 5px; }
+  .field input { width: 100%; padding: 11px 12px; border-radius: 9px; border: 1px solid var(--line); background: var(--paper-raised); color: var(--ink); font-family: inherit; font-size: 0.98rem; }
+  .sheet-actions { display: flex; gap: 10px; margin-top: 6px; }
+  .sheet-actions button { flex: 1; padding: 13px; border-radius: 10px; border: none; font-family: inherit; font-size: 0.95rem; cursor: pointer; }
+  .btn-primary { background: var(--navy); color: var(--paper-raised); font-weight: 600; }
+  .btn-secondary { background: transparent; color: var(--ink-soft); border: 1px solid var(--line) !important; }
+
+  #reader-wrap { position: fixed; inset: 0; background: #000; z-index: 60; display: none; flex-direction: column; }
+  #reader-wrap.open { display: flex; }
+  #reader { flex: 1; }
+  #reader video { object-fit: cover; }
+  .scan-topbar { position: absolute; top: 0; left: 0; right: 0; z-index: 61; padding: calc(14px + env(safe-area-inset-top, 0px)) 16px 14px; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(rgba(0,0,0,0.55), transparent); }
+  .scan-topbar span { color: #fff; font-family: 'Newsreader', serif; font-size: 1.05rem; }
+  .scan-topbar button { background: rgba(255,255,255,0.15); border: none; color: #fff; width: 34px; height: 34px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; }
+  .scan-topbar button#torchBtn.active { background: var(--gold); }
+  .zoom-row { position: absolute; bottom: calc(72px + env(safe-area-inset-bottom, 0px)); left: 0; right: 0; z-index: 61; display: none; align-items: center; justify-content: center; gap: 14px; }
+  .zoom-row button { width: 38px; height: 38px; border-radius: 50%; border: none; background: rgba(255,255,255,0.18); color: #fff; font-size: 1.2rem; cursor: pointer; }
+  .zoom-row span { color: #fff; font-size: 0.85rem; min-width: 42px; text-align: center; }
+  .scan-hint { position: absolute; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); left: 0; right: 0; text-align: center; color: #fff; font-size: 0.88rem; z-index: 61; padding: 0 20px; }
+  .toast { position: fixed; left: 50%; bottom: calc(100px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--navy-deep); color: var(--paper-raised); padding: 12px 18px; border-radius: 12px; font-size: 0.9rem; z-index: 70; opacity: 0; transition: opacity 0.25s, transform 0.25s; pointer-events: none; max-width: 86%; text-align: center; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(-4px); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="top">
+    <div class="brand">Mostrador <em>editorial</em></div>
+  </div>
+  <div class="pill-row">
+    <span class="mode-pill local" id="modePill">Conectando…</span>
+    <button class="mode-pill local" id="standPill" style="display:none;" type="button"></button>
+  </div>
+</header>
+
+<main>
+  <section id="panel-vender" class="tab-panel active">
+    <div class="total-card">
+      <div class="label" id="totalLabel">Vendido</div>
+      <div class="amount" id="totalAmount">$0</div>
+      <div class="count" id="totalCount">0 libros</div>
+      <div class="total-breakdown" id="totalBreakdown"></div>
+      <div class="total-actions">
+        <button id="undoBtn" disabled>Deshacer mi última</button>
+        <button id="resetBtn" disabled>Reiniciar total</button>
+      </div>
+    </div>
+
+    <div class="cart-bar" id="cartBar" style="display:none;">
+      <div class="cart-bar-info">
+        <span id="cartCount">0 libros</span>
+        <span id="cartTotal">$0</span>
+      </div>
+      <button class="cart-bar-btn" id="cobrarBtn" type="button">🧾 Cobrar</button>
+    </div>
+
+    <button class="scan-btn" id="openScan" disabled>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7V4h3M21 7V4h-3M3 17v3h3M21 17v3h-3M4 9h16v6H4z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Escanear código de barras
+    </button>
+    <button class="manual-toggle" id="manualToggle" type="button">o escribí el código a mano</button>
+    <div class="manual-row" id="manualRow">
+      <input id="manualCodigo" inputmode="numeric" placeholder="Código de barras / ISBN">
+      <button id="manualGo">Vender</button>
+    </div>
+
+    <div class="discount-card">
+      <div class="discount-label">Medio de pago</div>
+      <div class="discount-chips" id="paymentChips">
+        <button data-pm="EF" class="active">💵 Efectivo</button>
+        <button data-pm="TD">💳 Débito</button>
+        <button data-pm="TC">💳 Crédito</button>
+        <button data-pm="MP">📱 MercadoPago</button>
+      </div>
+    </div>
+
+    <div class="discount-card" id="discountCard">
+      <div class="discount-label">Descuento activo</div>
+      <div class="discount-chips" id="discountChips">
+        <button data-pct="0" class="active">Sin desc.</button>
+        <button data-pct="10">10%</button>
+        <button data-pct="20">20%</button>
+        <button data-pct="25">25%</button>
+        <button data-pct="30">30%</button>
+        <button data-pct="40">40%</button>
+        <button data-pct="50">50%</button>
+        <button data-pct="100" class="prensa-chip">🎫 Prensa</button>
+      </div>
+      <div class="discount-custom">
+        <input id="discountCustom" type="number" inputmode="numeric" placeholder="Otro %" min="0" max="100">
+        <button id="discountCustomGo">Aplicar</button>
+      </div>
+    </div>
+
+    <div class="sale-log">
+      <h3 id="saleLogTitle">Ventas</h3>
+      <div id="saleList"></div>
+    </div>
+  </section>
+
+  <section id="panel-inventario" class="tab-panel">
+    <input class="inv-search" id="invSearch" placeholder="Buscar por título o código…">
+    <button class="add-btn" id="addBookBtn">+ Agregar libro al inventario</button>
+    <div id="bookList"></div>
+  </section>
+
+  <section id="panel-resumen" class="tab-panel">
+    <div class="book-card" id="feriaInfoCard">
+      <div class="row1"><span class="titulo" id="feriaNombreDisplay">Sin nombre de feria</span></div>
+      <div class="isbn" id="feriaSubDisplay" style="margin-top:4px;"></div>
+      <div class="book-actions"><button id="editFeriaBtn">Editar datos de la feria</button></div>
+    </div>
+
+    <div class="book-card">
+      <div class="row1"><span class="titulo">Día actual: <span id="diaActualDisplay">1</span></span></div>
+      <div class="isbn" style="margin-top:4px;">Al terminar la jornada, tocá "Empezar día siguiente" — no borra nada, solo separa las ventas del próximo día.</div>
+      <div class="book-actions"><button id="nextDiaBtn">Empezar día siguiente →</button></div>
+    </div>
+
+    <div class="total-card">
+      <div class="label">Total general de la feria</div>
+      <div class="amount" id="grandTotalAmount">$0</div>
+      <div class="count" id="grandTotalCount">0 libros</div>
+      <div class="total-breakdown" id="grandTotalBreakdown"></div>
+    </div>
+
+    <div class="sale-log">
+      <h3>Por día</h3>
+      <div id="diaBreakdownList"></div>
+    </div>
+
+    <button class="scan-btn" id="pdfBtn" style="margin-top:18px;">📄 Generar resumen en PDF</button>
+
+    <div class="book-card" style="margin-top:26px; border-color: var(--red);">
+      <div class="row1"><span class="titulo" style="color:var(--red);">Nueva feria</span></div>
+      <div class="isbn" style="margin-top:4px;">Borra todas las ventas, pone el stock de todos los libros en 0 y reinicia el día a 1. Los títulos y precios del catálogo NO se tocan. Usalo recién cuando termine esta feria y ya hayas generado el PDF.</div>
+      <div class="book-actions"><button class="danger" id="nuevaFeriaBtn">Empezar una feria nueva</button></div>
+    </div>
+  </section>
+</main>
+
+<nav class="tabs">
+  <button data-tab="vender" class="active">Vender</button>
+  <button data-tab="inventario">Inventario</button>
+  <button data-tab="resumen">Resumen</button>
+</nav>
+
+<div id="reader-wrap">
+  <div class="scan-topbar">
+    <span>Escaneá el código</span>
+    <div style="display:flex; gap:8px;">
+      <button id="torchBtn" style="display:none;">🔦</button>
+      <button id="closeScan">✕</button>
+    </div>
+  </div>
+  <div id="reader"></div>
+  <div class="zoom-row" id="zoomRow">
+    <button id="zoomOut">–</button>
+    <span id="zoomLabel">1.0×</span>
+    <button id="zoomIn">+</button>
+  </div>
+  <div class="scan-hint">Apuntá al código, no hace falta que entre justo en un recuadro — con que se vea nítido alcanza</div>
+</div>
+
+<div class="overlay" id="bookOverlay">
+  <div class="sheet">
+    <h2 id="sheetTitle" class="serif">Agregar libro</h2>
+    <div class="field"><label>Código de barras / ISBN</label><input id="fCodigo" inputmode="numeric" placeholder="Escaneá o escribí el código"></div>
+    <div class="field"><label>Título</label><input id="fTitulo" placeholder="Título del libro"></div>
+    <div class="field"><label>Precio</label><input id="fPrecio" type="number" inputmode="decimal" placeholder="0"></div>
+    <div class="field"><label>Stock</label><input id="fStock" type="number" inputmode="numeric" placeholder="0"></div>
+    <div class="sheet-actions">
+      <button class="btn-secondary" id="cancelBook">Cancelar</button>
+      <button class="btn-primary" id="saveBook">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="feriaOverlay">
+  <div class="sheet">
+    <h2 class="serif">Datos de la feria</h2>
+    <div class="field"><label>Nombre de la feria</label><input id="fFeriaNombre" placeholder="Ej: 10° Feria de Editorxs"></div>
+    <div class="field"><label>Fecha de inicio (opcional)</label><input id="fFeriaInicio" type="date"></div>
+    <div class="field"><label>Fecha de fin (opcional)</label><input id="fFeriaFin" type="date"></div>
+    <div class="field"><label>Lugar (opcional)</label><input id="fFeriaLugar" placeholder="Ej: Centro Cultural..."></div>
+    <div class="sheet-actions">
+      <button class="btn-secondary" id="cancelFeria">Cancelar</button>
+      <button class="btn-primary" id="saveFeria">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="standOverlay">
+  <div class="sheet">
+    <h2 class="serif">¿De qué stand sos?</h2>
+    <p style="font-size:0.9rem; color:var(--ink-soft); margin:0 0 14px;">Escribí el nombre o código de tu stand. Todos los que usen el mismo código comparten stock y caja; cada stand tiene sus propias cuentas, separadas de las de otros stands.</p>
+    <div class="field"><label>Nombre o código del stand</label><input id="fStand" placeholder="Ej: mi-editorial-2026" autocapitalize="off" autocomplete="off"></div>
+    <div class="sheet-actions">
+      <button class="btn-secondary" id="cancelStand" style="display:none;">Cancelar</button>
+      <button class="btn-primary" id="saveStand">Entrar</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="compraOverlay">
+  <div class="sheet">
+    <h2 class="serif">Cerrar venta</h2>
+    <div id="compraItemsList" class="compra-items"></div>
+    <div class="field"><label>Nombre del comprador (opcional)</label><input id="fCompradorNombre" placeholder="Persona u organización"></div>
+    <div class="field"><label>CUIT (opcional, para facturar)</label><input id="fCompradorCuit" inputmode="numeric" placeholder="20-12345678-9"></div>
+    <div class="sheet-actions">
+      <button class="btn-secondary" id="cancelCompra">Seguir escaneando</button>
+      <button class="btn-primary" id="confirmCompra">Cerrar venta</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  const STOCK_KEY = 'editorial_stock_v1';
+  const SALES_KEY = 'editorial_ventas_sesion_v1';
+  const load = (k, fallback) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fallback; } catch(e){ return fallback; } };
+  const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} };
+  const fmt = n => '$' + Number(n||0).toLocaleString('es-AR', {maximumFractionDigits: 0});
+  const escapeHtml = s => String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+  function toast(msg){
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(t._h); t._h = setTimeout(()=>t.classList.remove('show'), 2400);
+  }
+
+  let mode = 'local';       // 'local' | 'shared'
+  let db = null;
+  let stockCache = {};      // codigo -> {titulo,precio,stock}
+  let ventasCache = [];     // {id,codigo,titulo,precio,fecha,dia} — shared log (or local, full history)
+  let mySaleIds = [];       // ids of sales *this device* made, for "undo my last"
+
+  // ---------------- Stands: cada editorial/stand tiene sus propias cuentas ----------------
+  const LEGACY_STAND = 'principal';   // los datos que ya existían antes de la función multi-stand
+  let standId = '';
+  let unsubs = [];
+  const slugStand = s => String(s||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40);
+  function base(){
+    if (!standId) throw new Error('sin stand');
+    return standId === LEGACY_STAND ? db : db.collection('stands').doc(standId);
+  }
+
+  // "Mis ventas" (para deshacer) se guardan en el celular: sobreviven a recargas de la página
+  const myKey = () => 'editorial_mis_ventas_' + (standId || 'local');
+  function loadMySales(){ const v = load(myKey(), []); mySaleIds = Array.isArray(v) ? v : []; }
+  function persistMySales(){ save(myKey(), mySaleIds.slice(-30)); }
+  function updateUndoBtn(){ document.getElementById('undoBtn').disabled = mySaleIds.length === 0; }
+
+  // Venta en curso ("carrito"): varios libros escaneados se agrupan bajo el mismo compraId
+  // hasta que se toca "Cobrar". Así una venta a una persona queda junta, con su comprador/CUIT si corresponde.
+  let currentCompraId = null;
+  const compraKey = () => 'editorial_compra_actual_' + (standId || 'local');
+  function newCompraId(){ return 'c' + Date.now() + Math.random().toString(36).slice(2,6); }
+  function loadCompraId(){ currentCompraId = load(compraKey(), null) || null; }
+  function startNewCompra(){ currentCompraId = newCompraId(); save(compraKey(), currentCompraId); }
+  function ensureCompraId(){ if (!currentCompraId) startNewCompra(); return currentCompraId; }
+
+  let editingCodigo = null;
+  let pendingScanCode = null;
+  let feriaMeta = { nombre: '', inicio: '', fin: '', lugar: '', diaActual: 1 };
+
+  function applyFeriaMeta(newMeta){
+    feriaMeta = Object.assign({ nombre: '', inicio: '', fin: '', lugar: '', diaActual: 1 }, newMeta || {});
+    if (!feriaMeta.diaActual) feriaMeta.diaActual = 1;
+    renderVenta();
+    const resumenPanel = document.getElementById('panel-resumen');
+    if (resumenPanel && resumenPanel.classList.contains('active')) renderResumen();
+  }
+  async function saveFeriaMeta(partial){
+    const merged = Object.assign({}, feriaMeta, partial);
+    if (mode === 'shared'){
+      try { await base().collection('config').doc('feria').set(merged, { merge: true }); }
+      catch(e){ toast('No se pudo guardar la info de la feria'); }
+    } else {
+      save('editorial_feria_meta', merged);
+      applyFeriaMeta(merged);
+    }
+  }
+
+  let medioPago = 'EF';
+  const MEDIO_PAGO_LABELS = { EF: 'Efectivo', TD: 'Débito', TC: 'Crédito', MP: 'MercadoPago' };
+  function setMedioPago(pm, skipSave){
+    medioPago = pm;
+    document.querySelectorAll('#paymentChips button').forEach(b=>{
+      b.classList.toggle('active', b.dataset.pm === pm);
+    });
+    if (!skipSave) save('editorial_medio_pago_activo', pm);
+  }
+  document.querySelectorAll('#paymentChips button').forEach(b=>{
+    b.addEventListener('click', ()=>setMedioPago(b.dataset.pm));
+  });
+  setMedioPago(load('editorial_medio_pago_activo', 'EF'), true);
+
+  let discountPct = 0;
+  function setDiscount(pct, skipSave){
+    discountPct = Math.max(0, Math.min(100, Number(pct) || 0));
+    document.querySelectorAll('#discountChips button').forEach(b=>{
+      b.classList.toggle('active', Number(b.dataset.pct) === discountPct);
+    });
+    document.getElementById('discountCard').classList.toggle('active', discountPct > 0);
+    if (![0,10,20,25,30,40,50,100].includes(discountPct)) document.getElementById('discountCustom').value = discountPct;
+    else document.getElementById('discountCustom').value = '';
+    if (!skipSave) save('editorial_descuento_activo', discountPct);
+  }
+  setDiscount(load('editorial_descuento_activo', 0), true);
+  document.querySelectorAll('#discountChips button').forEach(b=>{
+    b.addEventListener('click', ()=>setDiscount(Number(b.dataset.pct)));
+  });
+  document.getElementById('discountCustomGo').addEventListener('click', ()=>{
+    const v = document.getElementById('discountCustom').value;
+    if (v === '') return;
+    setDiscount(Number(v));
+  });
+
+  // ---------------- Feria: datos y día ----------------
+  document.getElementById('editFeriaBtn').addEventListener('click', ()=>{
+    document.getElementById('fFeriaNombre').value = feriaMeta.nombre || '';
+    document.getElementById('fFeriaInicio').value = feriaMeta.inicio || '';
+    document.getElementById('fFeriaFin').value = feriaMeta.fin || '';
+    document.getElementById('fFeriaLugar').value = feriaMeta.lugar || '';
+    document.getElementById('feriaOverlay').classList.add('open');
+  });
+  document.getElementById('cancelFeria').addEventListener('click', ()=>{
+    document.getElementById('feriaOverlay').classList.remove('open');
+  });
+  document.getElementById('saveFeria').addEventListener('click', async ()=>{
+    await saveFeriaMeta({
+      nombre: document.getElementById('fFeriaNombre').value.trim(),
+      inicio: document.getElementById('fFeriaInicio').value,
+      fin: document.getElementById('fFeriaFin').value,
+      lugar: document.getElementById('fFeriaLugar').value.trim()
+    });
+    document.getElementById('feriaOverlay').classList.remove('open');
+    renderResumen();
+    toast('Datos guardados');
+  });
+  document.getElementById('nextDiaBtn').addEventListener('click', async ()=>{
+    if (!confirm('¿Empezar el día siguiente? Las ventas de hoy quedan guardadas en el resumen, no se borra nada.')) return;
+    await saveFeriaMeta({ diaActual: (feriaMeta.diaActual||1) + 1 });
+    toast('Nuevo día iniciado');
+    renderVenta();
+    renderResumen();
+  });
+  document.getElementById('pdfBtn').addEventListener('click', generatePDF);
+  document.getElementById('nuevaFeriaBtn').addEventListener('click', async ()=>{
+    if (!confirm('Esto borra TODAS las ventas y pone el stock de todos los libros en 0 (los títulos y precios del catálogo quedan igual). ¿Ya generaste el PDF de esta feria?')) return;
+    if (!confirm('Última confirmación: esta acción no se puede deshacer. ¿Empezar una feria nueva?')) return;
+    await Store.nuevaFeria();
+    mySaleIds = []; persistMySales(); updateUndoBtn();
+    startNewCompra(); updateCartBar();
+    toast('Lista para una nueva feria');
+    renderResumen();
+    if (mode === 'local'){ renderVenta(); renderBooks(); }
+  });
+
+  // ---------------- Tabs ----------------
+  document.querySelectorAll('nav.tabs button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+      if (btn.dataset.tab === 'inventario') renderBooks();
+      if (btn.dataset.tab === 'resumen') renderResumen();
+    });
+  });
+
+  // ---------------- Render: ventas / total (solo el día actual) ----------------
+  function renderVenta(){
+    const diaHoy = feriaMeta.diaActual || 1;
+    const ventasHoy = ventasCache.filter(v => (v.dia || 1) === diaHoy);
+    const total = ventasHoy.reduce((s,v)=>s+Number((v.precioFinal !== undefined ? v.precioFinal : v.precio)||0),0);
+    document.getElementById('totalAmount').textContent = fmt(total);
+    document.getElementById('totalCount').textContent = ventasHoy.length + (ventasHoy.length===1 ? ' libro' : ' libros');
+    document.getElementById('undoBtn').disabled = mySaleIds.length === 0;
+    document.getElementById('resetBtn').disabled = ventasHoy.length === 0;
+
+    const breakdown = { EF: 0, TD: 0, TC: 0, MP: 0 };
+    ventasHoy.forEach(v=>{
+      const key = breakdown.hasOwnProperty(v.medioPago) ? v.medioPago : 'EF';
+      breakdown[key] += Number((v.precioFinal !== undefined ? v.precioFinal : v.precio)||0);
+    });
+    const breakdownEl = document.getElementById('totalBreakdown');
+    if (ventasHoy.length === 0){
+      breakdownEl.innerHTML = '';
+    } else {
+      breakdownEl.innerHTML = Object.keys(MEDIO_PAGO_LABELS).map(k=>
+        `<span>${MEDIO_PAGO_LABELS[k]}: ${fmt(breakdown[k])}</span>`
+      ).join(' · ');
+    }
+
+    updateCartBar();
+
+    const list = document.getElementById('saleList');
+    if (ventasHoy.length === 0){
+      list.innerHTML = '<div class="empty-note">Todavía no hay ventas hoy.</div>';
+      return;
+    }
+    const rows = ventasHoy.slice().sort((a,b)=> (b.fecha||'').localeCompare(a.fecha||''));
+
+    // Agrupar por compraId: varios libros vendidos juntos (misma venta/comprador) se muestran en una sola tarjeta.
+    const groups = [];
+    const groupIndex = {};
+    rows.forEach(v=>{
+      const gid = v.compraId || v.id;
+      if (!(gid in groupIndex)){
+        groupIndex[gid] = groups.length;
+        groups.push({ gid, items: [], comprador: null });
+      }
+      const g = groups[groupIndex[gid]];
+      g.items.push(v);
+      if (!g.comprador && v.comprador && (v.comprador.nombre || v.comprador.cuit)) g.comprador = v.comprador;
+    });
+
+    const rowHtml = v=>{
+      const desc = Number(v.descuento||0);
+      const precioMostrado = (v.precioFinal !== undefined) ? v.precioFinal : v.precio;
+      const origHtml = desc > 0 ? `<span class="orig">${fmt(v.precio)}</span>` : '';
+      const tagHtml = desc > 0 ? `<span class="disc-tag">${desc===100?'PRENSA':'-'+desc+'%'}</span>` : '';
+      const pmHtml = `<span class="pm-tag">${v.medioPago || 'EF'}</span>`;
+      return `<div class="sale-row" data-id="${escapeHtml(v.id)}"><span class="t">${escapeHtml(v.titulo)}${tagHtml}${pmHtml}</span><span class="p-wrap"><span class="p">${origHtml}${fmt(precioMostrado)}</span><button class="del-sale-btn" type="button" title="Eliminar esta venta" aria-label="Eliminar venta">✕</button></span></div>`;
+    };
+
+    list.innerHTML = groups.map(g=>{
+      const itemsHtml = g.items.map(rowHtml).join('');
+      if (g.items.length === 1 && !g.comprador) return itemsHtml;
+      const subtotal = g.items.reduce((s,v)=>s+Number((v.precioFinal !== undefined ? v.precioFinal : v.precio)||0),0);
+      const compradorHtml = g.comprador
+        ? `<strong>${escapeHtml(g.comprador.nombre || 'Comprador')}</strong>${g.comprador.cuit ? ' · CUIT ' + escapeHtml(g.comprador.cuit) : ''}`
+        : `<strong>Venta de ${g.items.length} libros</strong>`;
+      return `<div class="purchase-group"><div class="pg-head">${compradorHtml}<span>${g.items.length} libro${g.items.length===1?'':'s'} · ${fmt(subtotal)}</span></div>${itemsHtml}</div>`;
+    }).join('');
+  }
+
+  function updateCartBar(){
+    const bar = document.getElementById('cartBar');
+    const items = currentCompraId ? ventasCache.filter(v => v.compraId === currentCompraId) : [];
+    if (items.length === 0){ bar.style.display = 'none'; return; }
+    const total = items.reduce((s,v)=>s+Number((v.precioFinal !== undefined ? v.precioFinal : v.precio)||0),0);
+    document.getElementById('cartCount').textContent = items.length + (items.length===1 ? ' libro' : ' libros');
+    document.getElementById('cartTotal').textContent = fmt(total);
+    bar.style.display = 'flex';
+  }
+
+  function openCompraOverlay(){
+    const items = currentCompraId ? ventasCache.filter(v => v.compraId === currentCompraId) : [];
+    if (items.length === 0){ toast('Escaneá al menos un libro antes de cobrar'); return; }
+    const total = items.reduce((s,v)=>s+Number((v.precioFinal !== undefined ? v.precioFinal : v.precio)||0),0);
+    document.getElementById('compraItemsList').innerHTML = items.map(v=>
+      `<div class="ci-row"><span>${escapeHtml(v.titulo)}</span><span>${fmt(v.precioFinal !== undefined ? v.precioFinal : v.precio)}</span></div>`
+    ).join('') + `<div class="ci-total"><span>Total</span><span>${fmt(total)}</span></div>`;
+    document.getElementById('fCompradorNombre').value = '';
+    document.getElementById('fCompradorCuit').value = '';
+    document.getElementById('compraOverlay').classList.add('open');
+  }
+  document.getElementById('cobrarBtn').addEventListener('click', openCompraOverlay);
+  document.getElementById('cancelCompra').addEventListener('click', ()=>{
+    document.getElementById('compraOverlay').classList.remove('open');
+  });
+  document.getElementById('confirmCompra').addEventListener('click', async ()=>{
+    const nombre = document.getElementById('fCompradorNombre').value.trim();
+    const cuit = document.getElementById('fCompradorCuit').value.trim();
+    const compraId = currentCompraId;
+    document.getElementById('compraOverlay').classList.remove('open');
+    if (nombre || cuit){ await Store.cerrarCompra(compraId, { nombre, cuit }); }
+    startNewCompra();
+    updateCartBar();
+    if (mode === 'local') renderVenta();
+    toast('Venta cerrada' + (nombre ? ' — ' + nombre : ''));
+  });
+
+  // ---------------- Render: inventario ----------------
+  function renderBooks(){
+    const q = document.getElementById('invSearch').value.trim().toLowerCase();
+    const list = document.getElementById('bookList');
+    const items = Object.keys(stockCache).map(codigo=>({codigo, ...stockCache[codigo]}))
+      .filter(b => !q || (b.titulo||'').toLowerCase().includes(q) || codigo_str(b.codigo).includes(q));
+    if (items.length === 0){
+      list.innerHTML = '<div class="empty-note">Sin libros cargados todavía. Agregá el primero arriba.</div>';
+      return;
+    }
+    list.innerHTML = items.sort((a,b)=>(a.titulo||'').localeCompare(b.titulo||'')).map(b=>`
+      <div class="book-card" data-codigo="${escapeHtml(b.codigo)}">
+        <div class="row1"><span class="titulo">${escapeHtml(b.titulo)}</span><span class="precio">${fmt(b.precio)}</span></div>
+        <div class="row2">
+          <span class="isbn">${escapeHtml(b.codigo)}</span>
+          <span class="stock-pill ${Number(b.stock)<=0?'zero':''}">${Number(b.stock)<=0?'sin stock':b.stock + ' en stock'}</span>
+        </div>
+        <div class="book-actions"><button class="edit-btn">Editar</button><button class="danger del-btn">Eliminar</button></div>
+      </div>
+    `).join('');
+
+    list.querySelectorAll('.edit-btn').forEach(btn=>btn.addEventListener('click', e=>{
+      const codigo = e.target.closest('.book-card').dataset.codigo;
+      openBookSheet(stockCache[codigo], codigo);
+    }));
+    list.querySelectorAll('.del-btn').forEach(btn=>btn.addEventListener('click', async e=>{
+      const codigo = e.target.closest('.book-card').dataset.codigo;
+      const book = stockCache[codigo];
+      if (!confirm(`¿Eliminar "${book.titulo}" del inventario?`)) return;
+      await Store.deleteBook(codigo);
+      if (mode === 'local') renderBooks();
+    }));
+  }
+  function codigo_str(c){ return String(c||''); }
+
+  document.getElementById('invSearch').addEventListener('input', renderBooks);
+  document.getElementById('addBookBtn').addEventListener('click', ()=>openBookSheet(null, ''));
+
+  function openBookSheet(book, codigo){
+    editingCodigo = book ? codigo : null;
+    document.getElementById('sheetTitle').textContent = book ? 'Editar libro' : 'Agregar libro';
+    document.getElementById('fCodigo').value = codigo || '';
+    document.getElementById('fCodigo').disabled = !!book;
+    document.getElementById('fTitulo').value = book ? book.titulo : '';
+    document.getElementById('fPrecio').value = book ? book.precio : '';
+    document.getElementById('fStock').value = book ? book.stock : '';
+    document.getElementById('bookOverlay').classList.add('open');
+    setTimeout(()=>document.getElementById(book ? 'fPrecio' : (codigo ? 'fTitulo' : 'fCodigo')).focus(), 50);
+  }
+  document.getElementById('cancelBook').addEventListener('click', ()=>{
+    document.getElementById('bookOverlay').classList.remove('open');
+    pendingScanCode = null;
+  });
+  document.getElementById('saveBook').addEventListener('click', async ()=>{
+    const codigo = document.getElementById('fCodigo').value.trim();
+    const titulo = document.getElementById('fTitulo').value.trim();
+    const precio = Number(document.getElementById('fPrecio').value || 0);
+    const stockVal = Number(document.getElementById('fStock').value || 0);
+    if (!titulo){ toast('Ponele un título al libro'); return; }
+    if (!codigo){ toast('Falta el código de barras'); return; }
+    if (!editingCodigo && stockCache[codigo]){ toast('Ese código ya está cargado'); return; }
+
+    await Store.saveBook(codigo, { titulo, precio, stock: stockVal });
+    document.getElementById('bookOverlay').classList.remove('open');
+    if (mode === 'local') renderBooks();
+    toast('Guardado');
+    if (pendingScanCode === codigo){
+      pendingScanCode = null;
+      toast(`"${titulo}" cargado — volvé a escanear para venderlo`);
+    }
+  });
+
+  document.getElementById('undoBtn').addEventListener('click', async ()=>{
+    const id = mySaleIds[mySaleIds.length - 1];
+    if (!id) return;
+    const btn = document.getElementById('undoBtn');
+    btn.disabled = true;
+    const res = await Store.undoSale(id);
+    if (res && res.ok){
+      mySaleIds.pop(); persistMySales();
+      toast('Se deshizo: ' + res.titulo);
+    } else if (res && res.gone){
+      mySaleIds.pop(); persistMySales();
+      toast('Esa venta ya no estaba registrada');
+    } else {
+      toast('No se pudo deshacer, probá de nuevo');
+    }
+    if (mode === 'local') renderVenta();
+    updateUndoBtn();
+  });
+  document.getElementById('resetBtn').addEventListener('click', async ()=>{
+    if (!confirm('¿Reiniciar el total de HOY? El stock no se toca, y las ventas de días anteriores quedan guardadas para el resumen final' + (mode==='shared' ? ' (afecta a todo el equipo).' : '.'))) return;
+    await Store.resetVentas();
+    mySaleIds = []; persistMySales(); updateUndoBtn();
+    startNewCompra(); updateCartBar();
+    if (mode === 'local'){ renderVenta(); }
+  });
+
+  // Borrar cualquier venta del listado (arrepentimiento, devolución o error) — no hace falta que sea "mi" venta
+  document.getElementById('saleList').addEventListener('click', async (e)=>{
+    const btn = e.target.closest('.del-sale-btn');
+    if (!btn) return;
+    const row = btn.closest('.sale-row');
+    const id = row && row.dataset.id;
+    if (!id) return;
+    if (!confirm('¿Eliminar esta venta? Se repone el stock del libro. No se puede deshacer.')) return;
+    btn.disabled = true;
+    const res = await Store.undoSale(id);
+    if (res && res.ok){
+      const idx = mySaleIds.indexOf(id);
+      if (idx !== -1){ mySaleIds.splice(idx,1); persistMySales(); updateUndoBtn(); }
+      toast('Venta eliminada: ' + res.titulo);
+      if (mode === 'local') renderVenta();
+    } else if (res && res.gone){
+      toast('Esa venta ya no estaba registrada');
+      if (mode === 'local') renderVenta();
+    } else {
+      toast('No se pudo eliminar, probá de nuevo');
+      btn.disabled = false;
+    }
+  });
+
+  // ---------------- Scanner ----------------
+  let html5QrCode = null, lastCode = null, lastCodeAt = 0;
+  document.getElementById('openScan').addEventListener('click', startScan);
+  document.getElementById('closeScan').addEventListener('click', stopScan);
+
+  document.getElementById('manualToggle').addEventListener('click', ()=>{
+    const row = document.getElementById('manualRow');
+    row.classList.toggle('open');
+    if (row.classList.contains('open')) document.getElementById('manualCodigo').focus();
+  });
+  function submitManual(){
+    const input = document.getElementById('manualCodigo');
+    const codigo = input.value.trim();
+    if (!codigo){ toast('Escribí un código primero'); return; }
+    input.value = '';
+    handleScannedCode(codigo);
+  }
+  document.getElementById('manualGo').addEventListener('click', submitManual);
+  document.getElementById('manualCodigo').addEventListener('keydown', e=>{ if (e.key === 'Enter') submitManual(); });
+
+  function cameraErrorMessage(err){
+    const name = (err && err.name) || (typeof err === 'string' ? err : '') || '';
+    const raw = (err && err.message) ? (' [' + name + ': ' + err.message + ']') : (name ? (' [' + name + ']') : '');
+    let base = 'No se pudo abrir la cámara. Probá abrir este link directamente en Safari/Chrome del celular en vez de dentro de otra app.';
+    if (name === 'NotAllowedError' || /permission/i.test(name)) base = 'La cámara está bloqueada para esta página. Revisá los permisos de cámara del navegador (no del celular) para este sitio.';
+    else if (name === 'NotFoundError' || /no camera/i.test(name)) base = 'No se encontró una cámara trasera en este dispositivo.';
+    else if (name === 'NotReadableError') base = 'La cámara está siendo usada por otra app. Cerrala e intentá de nuevo.';
+    else if (name === 'SecurityError') base = 'El navegador bloqueó el acceso a la cámara en esta página (puede pasar si la abrís dentro de otra app en vez del navegador).';
+    return base + raw;
+  }
+
+  function startScan(){
+    const DetectorClass = window.__ZXingBarcodeDetector || (typeof BarcodeDetector !== 'undefined' ? BarcodeDetector : null);
+    if (DetectorClass){
+      startScanBD(DetectorClass);
+    } else if (typeof Html5Qrcode !== 'undefined'){
+      startScanLegacy();
+    } else {
+      toast('No se pudo cargar el lector de cámara (revisá tu conexión a internet).');
+    }
+  }
+
+  // --- Motor principal: lector WASM (ZXing-C++), con el nativo del navegador como respaldo ---
+  let bdStream = null, bdVideoEl = null, bdRAF = null, bdDetector = null;
+  async function startScanBD(DetectorClass){
+    try { bdDetector = new DetectorClass({ formats: ['ean_13','ean_8','upc_a','upc_e','code_128'] }); }
+    catch(e){ startScanLegacy(); return; }
+    let stream;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment', width: { ideal: 2560 }, height: { ideal: 1440 } }
+      });
+    } catch(err){
+      console.error('camera start failed', err);
+      toast(cameraErrorMessage(err));
+      return;
+    }
+    bdStream = stream;
+    document.getElementById('reader-wrap').classList.add('open');
+    const readerDiv = document.getElementById('reader');
+    readerDiv.innerHTML = '';
+    bdVideoEl = document.createElement('video');
+    bdVideoEl.setAttribute('playsinline', ''); bdVideoEl.setAttribute('autoplay', ''); bdVideoEl.muted = true;
+    bdVideoEl.style.width = '100%'; bdVideoEl.style.height = '100%'; bdVideoEl.style.objectFit = 'cover';
+    readerDiv.appendChild(bdVideoEl);
+    bdVideoEl.srcObject = stream;
+    try { await bdVideoEl.play(); } catch(e){}
+    setupCameraControlsBD(stream);
+    const loop = async () => {
+      if (!bdStream) return;
+      try {
+        const codes = await bdDetector.detect(bdVideoEl);
+        if (codes && codes.length) { onScanSuccess(codes[0].rawValue); }
+      } catch(e){}
+      bdRAF = requestAnimationFrame(loop);
+    };
+    bdRAF = requestAnimationFrame(loop);
+  }
+  function stopScanBD(){
+    document.getElementById('reader-wrap').classList.remove('open');
+    if (bdRAF) cancelAnimationFrame(bdRAF);
+    bdRAF = null;
+    if (bdStream){ bdStream.getTracks().forEach(t=>{ try{ t.stop(); }catch(e){} }); bdStream = null; }
+    bdVideoEl = null;
+  }
+  function setupCameraControlsBD(stream){
+    const track = stream.getVideoTracks()[0];
+    const torchBtn = document.getElementById('torchBtn');
+    const zoomRow = document.getElementById('zoomRow');
+    torchOn = false; torchBtn.style.display = 'none'; torchBtn.classList.remove('active'); zoomRow.style.display = 'none';
+    let caps;
+    try { caps = track.getCapabilities ? track.getCapabilities() : {}; } catch(e){ caps = {}; }
+
+    if (caps.torch){
+      torchBtn.style.display = 'flex';
+      torchBtn.onclick = () => {
+        torchOn = !torchOn;
+        track.applyConstraints({ advanced: [{ torch: torchOn }] })
+          .then(()=>torchBtn.classList.toggle('active', torchOn))
+          .catch(()=>{ torchOn = !torchOn; toast('No se pudo prender la linterna en este celular'); });
+      };
+    }
+    if (caps.zoom && caps.zoom.min !== undefined && caps.zoom.max !== undefined){
+      zoomRow.style.display = 'flex';
+      const min = caps.zoom.min, max = caps.zoom.max, step = caps.zoom.step || 0.1;
+      let current = min;
+      const label = document.getElementById('zoomLabel');
+      const paint = () => label.textContent = current.toFixed(1) + '×';
+      paint();
+      const applyZoom = () => track.applyConstraints({ advanced: [{ zoom: current }] }).catch(()=>{});
+      document.getElementById('zoomOut').onclick = () => { current = Math.max(min, current - Math.max(step,0.1)); applyZoom(); paint(); };
+      document.getElementById('zoomIn').onclick = () => { current = Math.min(max, current + Math.max(step,0.1)); applyZoom(); paint(); };
+    }
+  }
+
+  // --- Motor de respaldo: html5-qrcode (solo si BarcodeDetector no existe en absoluto) ---
+  function startScanLegacy(){
+    document.getElementById('reader-wrap').classList.add('open');
+    const formats = [
+      Html5QrcodeSupportedFormats.EAN_13, Html5QrcodeSupportedFormats.EAN_8,
+      Html5QrcodeSupportedFormats.UPC_A, Html5QrcodeSupportedFormats.UPC_E,
+      Html5QrcodeSupportedFormats.CODE_128
+    ];
+    html5QrCode = new Html5Qrcode("reader", { formatsToSupport: formats, verbose: false });
+    html5QrCode.start(
+      { facingMode: "environment" },
+      {
+        fps: 12,
+        qrbox: function(viewfinderWidth, viewfinderHeight){
+          const w = Math.floor(Math.min(viewfinderWidth * 0.9, 420));
+          const h = Math.floor(Math.min(viewfinderHeight * 0.35, 170));
+          return { width: w, height: h };
+        },
+        videoConstraints: { facingMode: "environment", width: { ideal: 2560 }, height: { ideal: 1440 } }
+      },
+      onScanSuccess, ()=>{}
+    )
+      .then(setupCameraControls)
+      .catch(err=>{
+        console.error('camera start failed', err);
+        toast(cameraErrorMessage(err));
+        document.getElementById('reader-wrap').classList.remove('open');
+      });
+  }
+
+  let torchOn = false;
+  function setupCameraControls(){
+    const torchBtn = document.getElementById('torchBtn');
+    const zoomRow = document.getElementById('zoomRow');
+    torchOn = false; torchBtn.style.display = 'none'; torchBtn.classList.remove('active'); zoomRow.style.display = 'none';
+    let caps;
+    try { caps = html5QrCode.getRunningTrackCameraCapabilities(); } catch(e){ return; }
+
+    const torchFeature = caps.torchFeature && caps.torchFeature();
+    if (torchFeature && torchFeature.isSupported && torchFeature.isSupported()){
+      torchBtn.style.display = 'flex';
+      torchBtn.onclick = () => {
+        torchOn = !torchOn;
+        torchFeature.apply(torchOn)
+          .then(()=>torchBtn.classList.toggle('active', torchOn))
+          .catch(()=>{ torchOn = !torchOn; toast('No se pudo prender la linterna en este celular'); });
+      };
+    }
+
+    const zoomFeature = caps.zoomFeature && caps.zoomFeature();
+    if (zoomFeature && zoomFeature.isSupported && zoomFeature.isSupported()){
+      zoomRow.style.display = 'flex';
+      const min = zoomFeature.min(), max = zoomFeature.max(), step = zoomFeature.step() || 0.1;
+      let current = (zoomFeature.value && zoomFeature.value()) || min;
+      const label = document.getElementById('zoomLabel');
+      const paint = () => label.textContent = current.toFixed(1) + '×';
+      paint();
+      document.getElementById('zoomOut').onclick = () => { current = Math.max(min, current - Math.max(step,0.1)); zoomFeature.apply(current); paint(); };
+      document.getElementById('zoomIn').onclick = () => { current = Math.min(max, current + Math.max(step,0.1)); zoomFeature.apply(current); paint(); };
+    }
+  }
+  function stopScan(){
+    if (bdStream){ stopScanBD(); return; }
+    document.getElementById('reader-wrap').classList.remove('open');
+    if (html5QrCode){
+      const instance = html5QrCode;
+      const doStop = () => instance.stop().then(()=>instance.clear()).catch(()=>{});
+      if (torchOn){
+        try {
+          const caps = instance.getRunningTrackCameraCapabilities();
+          const torchFeature = caps.torchFeature && caps.torchFeature();
+          if (torchFeature) { torchFeature.apply(false).finally(doStop); torchOn = false; html5QrCode = null; return; }
+        } catch(e){}
+      }
+      doStop();
+      html5QrCode = null;
+    }
+  }
+  function onScanSuccess(decodedText){
+    const now = Date.now();
+    if (decodedText === lastCode && now - lastCodeAt < 2500) return;
+    lastCode = decodedText; lastCodeAt = now;
+    handleScannedCode(decodedText);
+  }
+  async function handleScannedCode(codigo){
+    const result = await Store.sell(codigo);
+    if (result.status === 'not_found'){
+      if (navigator.vibrate) navigator.vibrate(80);
+      stopScan(); pendingScanCode = codigo; openBookSheet(null, codigo);
+      toast('Código no encontrado — cargalo en el inventario');
+    } else if (result.status === 'no_stock'){
+      if (navigator.vibrate) navigator.vibrate([60,60,60]);
+      toast(`"${result.titulo}" — no queda stock`);
+    } else if (result.status === 'ok'){
+      if (navigator.vibrate) navigator.vibrate(40);
+      mySaleIds.push(result.saleId); persistMySales(); updateUndoBtn();
+      if (mode === 'local'){ renderVenta(); renderBooks(); }
+      toast(`Vendido: ${result.titulo} — ${fmt(result.precio)}`);
+      stopScan();
+    } else {
+      toast('No se pudo registrar la venta, probá de nuevo');
+    }
+  }
+
+  // ---------------- Render: Resumen (toda la feria, todos los días) ----------------
+  function renderResumen(){
+    document.getElementById('feriaNombreDisplay').textContent = feriaMeta.nombre || 'Sin nombre de feria';
+    const subParts = [];
+    if (feriaMeta.inicio || feriaMeta.fin) subParts.push(`${feriaMeta.inicio||'?'} a ${feriaMeta.fin||'?'}`);
+    if (feriaMeta.lugar) subParts.push(feriaMeta.lugar);
+    document.getElementById('feriaSubDisplay').textContent = subParts.join(' · ');
+    document.getElementById('diaActualDisplay').textContent = feriaMeta.diaActual || 1;
+
+    const total = ventasCache.reduce((s,v)=>s+Number((v.precioFinal !== undefined ? v.precioFinal : v.precio)||0),0);
+    document.getElementById('grandTotalAmount').textContent = fmt(total);
+    document.getElementById('grandTotalCount').textContent = ventasCache.length + (ventasCache.length===1?' libro':' libros');
+
+    const bd = { EF: 0, TD: 0, TC: 0, MP: 0 };
+    ventasCache.forEach(v=>{
+      const k = bd.hasOwnProperty(v.medioPago) ? v.medioPago : 'EF';
+      bd[k] += Number((v.precioFinal !== undefined ? v.precioFinal : v.precio)||0);
+    });
+    document.getElementById('grandTotalBreakdown').innerHTML = ventasCache.length
+      ? Object.keys(MEDIO_PAGO_LABELS).map(k=>`<span>${MEDIO_PAGO_LABELS[k]}: ${fmt(bd[k])}</span>`).join(' · ')
+      : '';
+
+    const porDia = {};
+    ventasCache.forEach(v=>{
+      const d = v.dia || 1;
+      if (!porDia[d]) porDia[d] = { count: 0, total: 0 };
+      porDia[d].count++;
+      porDia[d].total += Number((v.precioFinal !== undefined ? v.precioFinal : v.precio)||0);
+    });
+    const dias = Object.keys(porDia).map(Number).sort((a,b)=>a-b);
+    const listEl = document.getElementById('diaBreakdownList');
+    listEl.innerHTML = dias.length
+      ? dias.map(d=>`<div class="sale-row"><span class="t">Día ${d}</span><span class="p">${porDia[d].count} libros · ${fmt(porDia[d].total)}</span></div>`).join('')
+      : '<div class="empty-note">Todavía no hay ventas registradas.</div>';
+  }
+
+  function generatePDF(){
+    if (!window.jspdf || !window.jspdf.jsPDF){ toast('No se pudo cargar el generador de PDF (revisá tu conexión)'); return; }
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+    const marginX = 18;
+    let y = 22;
+
+    doc.setFont('helvetica','bold'); doc.setFontSize(16);
+    doc.text(feriaMeta.nombre || 'Resumen de ventas', marginX, y); y += 7;
+    doc.setFont('helvetica','normal'); doc.setFontSize(10);
+    const sub = [];
+    if (feriaMeta.inicio || feriaMeta.fin) sub.push(`${feriaMeta.inicio||'?'} a ${feriaMeta.fin||'?'}`);
+    if (feriaMeta.lugar) sub.push(feriaMeta.lugar);
+    if (sub.length){ doc.text(sub.join(' · '), marginX, y); y += 6; }
+    doc.text('Generado: ' + new Date().toLocaleString('es-AR'), marginX, y); y += 10;
+
+    const total = ventasCache.reduce((s,v)=>s+Number((v.precioFinal !== undefined ? v.precioFinal : v.precio)||0),0);
+    doc.setFont('helvetica','bold'); doc.setFontSize(13);
+    doc.text('Total general: ' + fmt(total), marginX, y); y += 5;
+    doc.setFont('helvetica','normal'); doc.setFontSize(10);
+    doc.text('(' + ventasCache.length + (ventasCache.length===1?' libro)':' libros)'), marginX, y); y += 8;
+
+    const bd = { EF: 0, TD: 0, TC: 0, MP: 0 };
+    ventasCache.forEach(v=>{ const k = bd.hasOwnProperty(v.medioPago)?v.medioPago:'EF'; bd[k] += Number((v.precioFinal !== undefined ? v.precioFinal : v.precio)||0); });
+    Object.keys(MEDIO_PAGO_LABELS).forEach(k=>{
+      doc.text(`${MEDIO_PAGO_LABELS[k]}: ${fmt(bd[k])}`, marginX, y); y += 5.5;
+    });
+    y += 5;
+
+    doc.setFont('helvetica','bold'); doc.setFontSize(12);
+    doc.text('Por día', marginX, y); y += 7;
+    doc.setFontSize(9);
+    doc.text('Día', marginX, y); doc.text('Libros', marginX+35, y); doc.text('Total', marginX+65, y); y += 5;
+    doc.setFont('helvetica','normal');
+    const porDia = {};
+    ventasCache.forEach(v=>{ const d = v.dia||1; if(!porDia[d]) porDia[d]={count:0,total:0}; porDia[d].count++; porDia[d].total += Number((v.precioFinal !== undefined ? v.precioFinal : v.precio)||0); });
+    Object.keys(porDia).map(Number).sort((a,b)=>a-b).forEach(d=>{
+      doc.text('Día '+d, marginX, y); doc.text(String(porDia[d].count), marginX+35, y); doc.text(fmt(porDia[d].total), marginX+65, y); y += 5.5;
+      if (y > 270){ doc.addPage(); y = 20; }
+    });
+    y += 6;
+
+    if (y > 250){ doc.addPage(); y = 20; }
+    doc.setFont('helvetica','bold'); doc.setFontSize(12);
+    doc.text('Por título', marginX, y); y += 7;
+    doc.setFontSize(9);
+    doc.text('Título', marginX, y); doc.text('Cant.', marginX+120, y); doc.text('Total', marginX+145, y); y += 5;
+    doc.setFont('helvetica','normal');
+    const porTitulo = {};
+    ventasCache.forEach(v=>{ if(!porTitulo[v.titulo]) porTitulo[v.titulo]={count:0,total:0}; porTitulo[v.titulo].count++; porTitulo[v.titulo].total += Number((v.precioFinal !== undefined ? v.precioFinal : v.precio)||0); });
+    Object.keys(porTitulo).sort().forEach(t=>{
+      if (y > 280){ doc.addPage(); y = 20; }
+      const trunc = t.length > 55 ? t.slice(0,52)+'…' : t;
+      doc.text(trunc, marginX, y); doc.text(String(porTitulo[t].count), marginX+120, y); doc.text(fmt(porTitulo[t].total), marginX+145, y); y += 5;
+    });
+
+    // Ventas con datos de facturación (comprador / CUIT cargados al cerrar la venta)
+    const porCompra = {};
+    ventasCache.forEach(v=>{
+      if (!v.compraId || !v.comprador || (!v.comprador.nombre && !v.comprador.cuit)) return;
+      if (!porCompra[v.compraId]) porCompra[v.compraId] = { comprador: v.comprador, items: [], total: 0, fecha: v.fecha };
+      porCompra[v.compraId].items.push(v.titulo);
+      porCompra[v.compraId].total += Number((v.precioFinal !== undefined ? v.precioFinal : v.precio)||0);
+      if (v.fecha && v.fecha < porCompra[v.compraId].fecha) porCompra[v.compraId].fecha = v.fecha;
+    });
+    const comprasConDatos = Object.values(porCompra).sort((a,b)=> (a.fecha||'').localeCompare(b.fecha||''));
+    if (comprasConDatos.length){
+      if (y > 240){ doc.addPage(); y = 20; }
+      y += 4;
+      doc.setFont('helvetica','bold'); doc.setFontSize(12);
+      doc.text('Ventas con datos para facturar', marginX, y); y += 7;
+      doc.setFontSize(9);
+      comprasConDatos.forEach(c=>{
+        if (y > 275){ doc.addPage(); y = 20; }
+        doc.setFont('helvetica','bold');
+        doc.text(c.comprador.nombre || 'Comprador', marginX, y);
+        doc.text(fmt(c.total), marginX+145, y);
+        y += 4.5;
+        doc.setFont('helvetica','normal');
+        if (c.comprador.cuit){ doc.text('CUIT ' + c.comprador.cuit, marginX, y); y += 4.5; }
+        const itemsLine = c.items.join(', ');
+        const trunc = itemsLine.length > 95 ? itemsLine.slice(0,92)+'…' : itemsLine;
+        doc.text(trunc, marginX, y); y += 7;
+      });
+    }
+
+    const slug = (feriaMeta.nombre ? feriaMeta.nombre.replace(/[^a-z0-9]+/gi,'-').toLowerCase() : 'feria');
+    doc.save('resumen-' + slug + '.pdf');
+  }
+
+  // ---------------- Store: adapter over db (shared) or localStorage (local) ----------------
+  const Store = {
+    async sell(codigo){
+      const pct = discountPct;
+      const pm = medioPago;
+      const dia = feriaMeta.diaActual || 1;
+      const compraId = ensureCompraId();
+      if (mode === 'shared'){
+        try{
+          const ref = base().collection('stock').doc(codigo);
+          const snap = await ref.get();
+          if (!snap.exists) return { status: 'not_found' };
+          const data = snap.data();
+          if (Number(data.stock) <= 0) return { status: 'no_stock', titulo: data.titulo };
+          const precioFinal = Math.round(Number(data.precio||0) * (1 - pct/100));
+          await ref.update({ stock: Number(data.stock) - 1 });
+          const saleRef = await base().collection('ventas').add({ codigo, titulo: data.titulo, precio: Number(data.precio||0), descuento: pct, precioFinal, medioPago: pm, dia, fecha: new Date().toISOString(), compraId });
+          return { status: 'ok', titulo: data.titulo, precio: precioFinal, saleId: saleRef.id };
+        } catch(e){ return { status: 'error' }; }
+      } else {
+        let stock = load(STOCK_KEY, []);
+        const book = stock.find(b=>b.codigo===codigo);
+        if (!book) return { status: 'not_found' };
+        if (Number(book.stock) <= 0) return { status: 'no_stock', titulo: book.titulo };
+        book.stock = Number(book.stock) - 1;
+        save(STOCK_KEY, stock);
+        const precioFinal = Math.round(Number(book.precio||0) * (1 - pct/100));
+        let ventas = load(SALES_KEY, []);
+        const id = 'l' + Date.now() + Math.random().toString(36).slice(2,6);
+        ventas.push({ id, codigo, titulo: book.titulo, precio: Number(book.precio||0), descuento: pct, precioFinal, medioPago: pm, dia, fecha: new Date().toISOString(), compraId });
+        save(SALES_KEY, ventas);
+        stockCache[codigo] = { titulo: book.titulo, precio: book.precio, stock: book.stock };
+        ventasCache = ventas;
+        return { status: 'ok', titulo: book.titulo, precio: precioFinal, saleId: id };
+      }
+    },
+    async cerrarCompra(compraId, comprador){
+      // Guarda el nombre/CUIT del comprador (si se cargó) en todos los libros de esta venta agrupada.
+      if (!comprador || (!comprador.nombre && !comprador.cuit)) return { ok: true };
+      if (mode === 'shared'){
+        try{
+          const snap = await base().collection('ventas').where('compraId','==',compraId).get();
+          for (const d of snap.docs){ await base().collection('ventas').doc(d.id).update({ comprador }); }
+          return { ok: true };
+        } catch(e){ return { ok: false }; }
+      } else {
+        let ventas = load(SALES_KEY, []);
+        let changed = false;
+        ventas.forEach(v=>{ if (v.compraId === compraId){ v.comprador = comprador; changed = true; } });
+        if (changed){ save(SALES_KEY, ventas); ventasCache = ventas; }
+        return { ok: true };
+      }
+    },
+    async saveBook(codigo, { titulo, precio, stock }){
+      if (mode === 'shared'){
+        try { await base().collection('stock').doc(codigo).set({ titulo, precio, stock }); }
+        catch(e){ toast('No se pudo guardar (revisá tu conexión o permisos)'); }
+      } else {
+        let s = load(STOCK_KEY, []);
+        const existing = s.find(b=>b.codigo===codigo);
+        if (existing){ existing.titulo=titulo; existing.precio=precio; existing.stock=stock; }
+        else s.push({ codigo, titulo, precio, stock });
+        save(STOCK_KEY, s);
+        stockCache[codigo] = { titulo, precio, stock };
+      }
+    },
+    async deleteBook(codigo){
+      if (mode === 'shared'){
+        try { await base().collection('stock').doc(codigo).delete(); } catch(e){ toast('No se pudo eliminar'); }
+      } else {
+        let s = load(STOCK_KEY, []).filter(b=>b.codigo!==codigo);
+        save(STOCK_KEY, s);
+        delete stockCache[codigo];
+      }
+    },
+    async undoSale(saleId){
+      if (mode === 'shared'){
+        try{
+          const saleRef = base().collection('ventas').doc(saleId);
+          const saleSnap = await saleRef.get();
+          if (!saleSnap.exists) return { gone: true };
+          const sale = saleSnap.data();
+          await saleRef.delete();
+          const stockRef = base().collection('stock').doc(sale.codigo);
+          const stockSnap = await stockRef.get();
+          if (stockSnap.exists) await stockRef.update({ stock: Number(stockSnap.data().stock||0) + 1 });
+          return { ok: true, titulo: sale.titulo };
+        } catch(e){ return { ok: false }; }
+      } else {
+        let ventas = load(SALES_KEY, []);
+        const idx = ventas.findIndex(v=>v.id===saleId);
+        if (idx === -1) return { gone: true };
+        const [sale] = ventas.splice(idx,1);
+        save(SALES_KEY, ventas);
+        let s = load(STOCK_KEY, []);
+        const book = s.find(b=>b.codigo===sale.codigo);
+        if (book){ book.stock = Number(book.stock||0)+1; save(STOCK_KEY, s); stockCache[sale.codigo] = { titulo: book.titulo, precio: book.precio, stock: book.stock }; }
+        ventasCache = ventas;
+        return { ok: true, titulo: sale.titulo };
+      }
+    },
+    async resetVentas(){
+      const dia = feriaMeta.diaActual || 1;
+      if (mode === 'shared'){
+        try{
+          const snap = await base().collection('ventas').where('dia','==',dia).limit(500).get();
+          for (const d of snap.docs){ await base().collection('ventas').doc(d.id).delete(); }
+        } catch(e){ toast('No se pudo reiniciar el total de hoy'); }
+      } else {
+        let ventas = load(SALES_KEY, []).filter(v => (v.dia||1) !== dia);
+        save(SALES_KEY, ventas);
+        ventasCache = ventas;
+      }
+    },
+    async nuevaFeria(){
+      if (mode === 'shared'){
+        try {
+          let snap = await base().collection('ventas').limit(500).get();
+          let guard = 0;
+          while (snap.docs.length && guard < 40){
+            for (const d of snap.docs){ await base().collection('ventas').doc(d.id).delete(); }
+            snap = await base().collection('ventas').limit(500).get();
+            guard++;
+          }
+          const stockSnap = await base().collection('stock').limit(1000).get();
+          for (const d of stockSnap.docs){ await base().collection('stock').doc(d.id).update({ stock: 0 }); }
+        } catch(e){ toast('Hubo un problema reiniciando la feria'); }
+      } else {
+        save(SALES_KEY, []);
+        ventasCache = [];
+        let s = load(STOCK_KEY, []);
+        s.forEach(b => b.stock = 0);
+        save(STOCK_KEY, s);
+        Object.keys(stockCache).forEach(k => stockCache[k].stock = 0);
+      }
+      await saveFeriaMeta({ nombre: '', inicio: '', fin: '', lugar: '', diaActual: 1 });
+    }
+  };
+
+  // ---------------- Init ----------------
+  function setModePill(){
+    const pill = document.getElementById('modePill');
+    if (mode === 'shared'){
+      pill.textContent = 'Stock compartido — todos ven lo mismo';
+      pill.className = 'mode-pill shared';
+      document.getElementById('totalLabel').textContent = 'Vendido (entre todos)';
+      document.getElementById('saleLogTitle').textContent = 'Ventas de todo el equipo';
+    } else {
+      pill.textContent = 'Modo local — solo en este celular';
+      pill.className = 'mode-pill local';
+      document.getElementById('totalLabel').textContent = 'Vendido en esta sesión';
+      document.getElementById('saleLogTitle').textContent = 'Ventas de esta sesión';
+    }
+    document.getElementById('openScan').disabled = false;
+  }
+
+  function subscribeShared(){
+    unsubs.forEach(u=>{ try{ u(); }catch(e){} }); unsubs = [];
+    stockCache = {}; ventasCache = [];
+    loadMySales(); updateUndoBtn();
+    loadCompraId();
+    applyFeriaMeta({});
+    renderBooks();
+    unsubs.push(base().collection('stock').onSnapshot(
+      snap => { stockCache = {}; snap.docs.forEach(d=>{ stockCache[d.id] = d.data(); }); renderBooks(); },
+      err => { if (err && err.code === 'revoked') toast('Se perdió el acceso al stock compartido'); }
+    ));
+    unsubs.push(base().collection('ventas').orderBy('fecha','desc').limit(500).onSnapshot(
+      snap => { ventasCache = snap.docs.map(d=>({ id: d.id, ...d.data() })); renderVenta(); if (document.getElementById('panel-resumen').classList.contains('active')) renderResumen(); },
+      err => {}
+    ));
+    unsubs.push(base().collection('config').doc('feria').onSnapshot(
+      snap => { applyFeriaMeta(snap.exists ? snap.data() : {}); },
+      err => {}
+    ));
+  }
+
+  function updateStandPill(){
+    const p = document.getElementById('standPill');
+    if (mode !== 'shared' || !standId){ p.style.display = 'none'; return; }
+    p.style.display = '';
+    p.textContent = 'Stand: ' + standId + ' ✎';
+  }
+  function openStandSheet(canCancel){
+    document.getElementById('fStand').value = standId || '';
+    document.getElementById('cancelStand').style.display = canCancel ? '' : 'none';
+    document.getElementById('standOverlay').classList.add('open');
+  }
+  function setStand(raw){
+    const s = slugStand(raw);
+    if (!s){ toast('Escribí un nombre o código para tu stand'); return false; }
+    standId = s;
+    save('editorial_stand', s);
+    document.getElementById('standOverlay').classList.remove('open');
+    updateStandPill();
+    subscribeShared();
+    return true;
+  }
+  document.getElementById('standPill').addEventListener('click', ()=>openStandSheet(true));
+  document.getElementById('saveStand').addEventListener('click', ()=>setStand(document.getElementById('fStand').value));
+  document.getElementById('cancelStand').addEventListener('click', ()=>document.getElementById('standOverlay').classList.remove('open'));
+  document.getElementById('fStand').addEventListener('keydown', e=>{ if (e.key === 'Enter') setStand(e.target.value); });
+
+  async function init(){
+    try {
+      if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length){
+        db = firebase.firestore();
+      }
+    } catch(e){ db = null; }
+    if (db){
+      mode = 'shared';
+      let fromUrl = '';
+      try { fromUrl = slugStand(new URLSearchParams(location.search).get('stand')); } catch(e){}
+      const saved = load('editorial_stand', '');
+      if (fromUrl) setStand(fromUrl);
+      else if (saved) setStand(saved);
+      else openStandSheet(false);
+    } else {
+      mode = 'local';
+      const stockArr = load(STOCK_KEY, []);
+      stockArr.forEach(b=>{ stockCache[b.codigo] = { titulo: b.titulo, precio: b.precio, stock: b.stock }; });
+      ventasCache = load(SALES_KEY, []);
+      applyFeriaMeta(load('editorial_feria_meta', {}));
+      loadMySales(); updateUndoBtn();
+      loadCompraId();
+      renderBooks(); renderVenta();
+    }
+    setModePill();
+    updateStandPill();
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
