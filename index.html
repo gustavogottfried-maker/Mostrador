@@ -138,6 +138,8 @@
   .book-actions { display: flex; gap: 8px; margin-top: 10px; }
   .book-actions button { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--line); background: transparent; color: var(--ink-soft); font-family: inherit; font-size: 0.82rem; cursor: pointer; }
   .book-actions button.danger { color: var(--red); border-color: var(--red); }
+  .book-actions button.sell-btn { color: var(--navy-deep); border-color: var(--gold); background: var(--gold); font-weight: 600; }
+  .book-actions button.sell-btn:disabled { opacity: 0.45; cursor: default; }
 
   nav.tabs { position: fixed; bottom: 0; left: 0; right: 0; display: flex; background: var(--paper-raised); border-top: 1px solid var(--line); padding: 10px 10px calc(10px + env(safe-area-inset-bottom, 0px)); gap: 6px; }
   nav.tabs button { flex: 1; background: none; border: none; padding: 8px; border-radius: 10px; cursor: pointer; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.86rem; color: var(--ink-soft); }
@@ -150,6 +152,14 @@
   .field { margin-bottom: 14px; }
   .field label { display: block; font-size: 0.82rem; color: var(--ink-soft); margin-bottom: 5px; }
   .field input { width: 100%; padding: 11px 12px; border-radius: 9px; border: 1px solid var(--line); background: var(--paper-raised); color: var(--ink); font-family: inherit; font-size: 0.98rem; }
+  .field-row { display: flex; gap: 8px; align-items: flex-end; }
+  .field-row .field { flex: 1; margin-bottom: 0; }
+  .lookup-btn { flex-shrink: 0; width: 44px; height: 44px; border-radius: 9px; border: 1px solid var(--line); background: var(--paper-raised); color: var(--ink); font-size: 1.1rem; cursor: pointer; }
+  .lookup-btn:disabled { opacity: 0.5; }
+  .lookup-status { font-size: 0.82rem; margin: 6px 0 14px; min-height: 1.1em; }
+  .lookup-status.searching { color: var(--ink-soft); }
+  .lookup-status.found { color: var(--navy-deep); }
+  .lookup-status.notfound { color: var(--ink-soft); }
   .sheet-actions { display: flex; gap: 10px; margin-top: 6px; }
   .sheet-actions button { flex: 1; padding: 13px; border-radius: 10px; border: none; font-family: inherit; font-size: 0.95rem; cursor: pointer; }
   .btn-primary { background: var(--navy); color: var(--paper-raised); font-weight: 600; }
@@ -315,7 +325,11 @@
 <div class="overlay" id="bookOverlay">
   <div class="sheet">
     <h2 id="sheetTitle" class="serif">Agregar libro</h2>
-    <div class="field"><label>Código de barras / ISBN</label><input id="fCodigo" inputmode="numeric" placeholder="Escaneá o escribí el código"></div>
+    <div class="field-row">
+      <div class="field"><label>Código de barras / ISBN (opcional)</label><input id="fCodigo" inputmode="numeric" placeholder="Si el libro no tiene, dejalo vacío"></div>
+      <button type="button" class="lookup-btn" id="lookupIsbnBtn" title="Buscar datos por ISBN">🔍</button>
+    </div>
+    <div class="lookup-status" id="lookupStatus"></div>
     <div class="field"><label>Título</label><input id="fTitulo" placeholder="Título del libro"></div>
     <div class="field"><label>Precio</label><input id="fPrecio" type="number" inputmode="decimal" placeholder="0"></div>
     <div class="field"><label>Stock</label><input id="fStock" type="number" inputmode="numeric" placeholder="0"></div>
@@ -641,13 +655,17 @@
       <div class="book-card" data-codigo="${escapeHtml(b.codigo)}">
         <div class="row1"><span class="titulo">${escapeHtml(b.titulo)}</span><span class="precio">${fmt(b.precio)}</span></div>
         <div class="row2">
-          <span class="isbn">${escapeHtml(b.codigo)}</span>
+          <span class="isbn">${String(b.codigo).startsWith('SINCOD-') ? 'sin código de barras' : escapeHtml(b.codigo)}</span>
           <span class="stock-pill ${Number(b.stock)<=0?'zero':''}">${Number(b.stock)<=0?'sin stock':b.stock + ' en stock'}</span>
         </div>
-        <div class="book-actions"><button class="edit-btn">Editar</button><button class="danger del-btn">Eliminar</button></div>
+        <div class="book-actions"><button class="sell-btn" ${Number(b.stock)<=0?'disabled':''}>Vender</button><button class="edit-btn">Editar</button><button class="danger del-btn">Eliminar</button></div>
       </div>
     `).join('');
 
+    list.querySelectorAll('.sell-btn').forEach(btn=>btn.addEventListener('click', e=>{
+      const codigo = e.target.closest('.book-card').dataset.codigo;
+      handleScannedCode(codigo);
+    }));
     list.querySelectorAll('.edit-btn').forEach(btn=>btn.addEventListener('click', e=>{
       const codigo = e.target.closest('.book-card').dataset.codigo;
       openBookSheet(stockCache[codigo], codigo);
@@ -673,19 +691,91 @@
     document.getElementById('fTitulo').value = book ? book.titulo : '';
     document.getElementById('fPrecio').value = book ? book.precio : '';
     document.getElementById('fStock').value = book ? book.stock : '';
+    document.getElementById('lookupIsbnBtn').style.display = book ? 'none' : '';
+    setLookupStatus('', '');
     document.getElementById('bookOverlay').classList.add('open');
     setTimeout(()=>document.getElementById(book ? 'fPrecio' : (codigo ? 'fTitulo' : 'fCodigo')).focus(), 50);
+    if (!book && codigo) buscarDatosISBN(codigo, { auto: true });
+  }
+
+  // ---------------- Autocompletado por ISBN ----------------
+  function setLookupStatus(text, cls){
+    const el = document.getElementById('lookupStatus');
+    el.textContent = text;
+    el.className = 'lookup-status' + (cls ? ' ' + cls : '');
+  }
+  document.getElementById('lookupIsbnBtn').addEventListener('click', ()=>{
+    const codigo = document.getElementById('fCodigo').value.trim();
+    if (!codigo){ toast('Escribí o escaneá el código primero'); return; }
+    buscarDatosISBN(codigo, { auto: false });
+  });
+  async function buscarDatosISBN(codigo, opts){
+    opts = opts || {};
+    const isbn = String(codigo || '').replace(/[^0-9Xx]/g, '');
+    if (!isbn) return;
+    const btn = document.getElementById('lookupIsbnBtn');
+    btn.disabled = true;
+    setLookupStatus('Buscando datos del libro…', 'searching');
+    let datos = null;
+    try { datos = await fetchGoogleBooks(isbn); } catch(e) {}
+    if (!datos){
+      try { datos = await fetchOpenLibrary(isbn); } catch(e) {}
+    }
+    btn.disabled = false;
+    if (datos && datos.titulo){
+      const tituloField = document.getElementById('fTitulo');
+      // No pisar un título que el vendedor ya haya escrito a mano
+      if (!tituloField.value.trim() || opts.auto === false) {
+        tituloField.value = datos.autor ? `${datos.titulo} - ${datos.autor}` : datos.titulo;
+      }
+      setLookupStatus(`Encontrado en ${datos.fuente} — revisá y corregí si hace falta`, 'found');
+    } else {
+      setLookupStatus('No se encontró automáticamente — cargalo a mano', 'notfound');
+    }
+  }
+  async function fetchGoogleBooks(isbn){
+    const r = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`);
+    if (!r.ok) return null;
+    const data = await r.json();
+    const item = data.items && data.items[0];
+    const vi = item && item.volumeInfo;
+    if (!vi || !vi.title) return null;
+    return {
+      titulo: vi.subtitle ? `${vi.title}: ${vi.subtitle}` : vi.title,
+      autor: (vi.authors || []).join(', '),
+      fuente: 'Google Books'
+    };
+  }
+  async function fetchOpenLibrary(isbn){
+    const r = await fetch(`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`);
+    if (!r.ok) return null;
+    const data = await r.json();
+    const item = data['ISBN:' + isbn];
+    if (!item || !item.title) return null;
+    return {
+      titulo: item.title,
+      autor: (item.authors || []).map(a => a.name).join(', '),
+      fuente: 'Open Library'
+    };
   }
   document.getElementById('cancelBook').addEventListener('click', ()=>{
     document.getElementById('bookOverlay').classList.remove('open');
     pendingScanCode = null;
   });
+  function generarCodigoInterno(){
+    let code;
+    do {
+      code = 'SINCOD-' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2,5).toUpperCase();
+    } while (stockCache[code]);
+    return code;
+  }
   document.getElementById('saveBook').addEventListener('click', async ()=>{
-    const codigo = document.getElementById('fCodigo').value.trim();
+    let codigo = document.getElementById('fCodigo').value.trim();
     const titulo = document.getElementById('fTitulo').value.trim();
     const precio = Number(document.getElementById('fPrecio').value || 0);
     const stockVal = Number(document.getElementById('fStock').value || 0);
     if (!titulo){ toast('Ponele un título al libro'); return; }
+    if (!codigo && !editingCodigo) codigo = generarCodigoInterno();
     if (!codigo){ toast('Falta el código de barras'); return; }
     if (!editingCodigo && stockCache[codigo]){ toast('Ese código ya está cargado'); return; }
 
