@@ -265,6 +265,17 @@
   </section>
 
   <section id="panel-resumen" class="tab-panel">
+    <div class="book-card" id="qrPagoCard">
+      <div class="row1"><span class="titulo">QR de cobro (Mercado Pago)</span></div>
+      <div class="isbn" style="margin-top:4px;">Subí la imagen de "Mi QR" de la cuenta de Mercado Pago de este stand (Perfil → Cobrar → Mi QR → compartir/descargar). Queda guardada para todo el equipo y aparece como botón opcional al cerrar cada venta.</div>
+      <div id="qrPagoPreviewWrap" style="margin-top:10px; display:none;"><img id="qrPagoPreview" style="width:90px; height:90px; object-fit:contain; border-radius:8px; border:1px solid var(--line); background:#fff;"></div>
+      <input type="file" id="fQrPago" accept="image/*" style="display:none;">
+      <div class="book-actions">
+        <button id="cargarQrPagoBtn">Cargar / cambiar QR</button>
+        <button class="danger" id="quitarQrPagoBtn" style="display:none;">Quitar QR</button>
+      </div>
+    </div>
+
     <div class="book-card" id="feriaInfoCard">
       <div class="row1"><span class="titulo" id="feriaNombreDisplay">Sin nombre de feria</span></div>
       <div class="isbn" id="feriaSubDisplay" style="margin-top:4px;"></div>
@@ -370,11 +381,25 @@
   <div class="sheet">
     <h2 class="serif">Cerrar venta</h2>
     <div id="compraItemsList" class="compra-items"></div>
+    <button class="scan-btn" id="mostrarQrPagoBtn" style="margin-top:4px; display:none;">💳 Cobrar con QR</button>
     <div class="field"><label>Nombre del comprador (opcional)</label><input id="fCompradorNombre" placeholder="Persona u organización"></div>
     <div class="field"><label>CUIT (opcional, para facturar)</label><input id="fCompradorCuit" inputmode="numeric" placeholder="20-12345678-9"></div>
     <div class="sheet-actions">
       <button class="btn-secondary" id="cancelCompra">Seguir escaneando</button>
       <button class="btn-primary" id="confirmCompra">Cerrar venta</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="qrPagoOverlay">
+  <div class="sheet" style="text-align:center;">
+    <h2 class="serif">Escaneá para pagar</h2>
+    <p style="color:var(--ink-soft); font-size:0.88rem; margin:0 0 14px;">Con Mercado Pago, Modo o la app de tu banco</p>
+    <img id="qrPagoFull" style="width:min(70vw,280px); height:min(70vw,280px); object-fit:contain; border-radius:14px; border:1px solid var(--line); background:#fff; margin-bottom:16px;">
+    <div style="font-family:'Newsreader',serif; font-size:2rem; font-weight:600; margin-bottom:4px;" id="qrPagoTotal"></div>
+    <p style="color:var(--ink-soft); font-size:0.84rem; margin:0 0 18px;">Decile al cliente que escriba este monto al pagar</p>
+    <div class="sheet-actions">
+      <button class="btn-primary" id="cerrarQrPago" style="width:100%;">Listo</button>
     </div>
   </div>
 </div>
@@ -448,6 +473,70 @@
       applyFeriaMeta(merged);
     }
   }
+
+  // ---------------- QR de cobro (Mercado Pago / interoperable) ----------------
+  let pagoQR = '';
+  function applyPagoMeta(meta){
+    pagoQR = (meta && meta.qrDataUrl) || '';
+    const wrap = document.getElementById('qrPagoPreviewWrap');
+    const quitarBtn = document.getElementById('quitarQrPagoBtn');
+    if (pagoQR){
+      document.getElementById('qrPagoPreview').src = pagoQR;
+      wrap.style.display = '';
+      quitarBtn.style.display = '';
+    } else {
+      wrap.style.display = 'none';
+      quitarBtn.style.display = 'none';
+    }
+  }
+  async function savePagoQR(dataUrl){
+    if (mode === 'shared'){
+      try { await base().collection('config').doc('pago').set({ qrDataUrl: dataUrl }, { merge: true }); }
+      catch(e){ toast('No se pudo guardar el QR'); }
+    } else {
+      save('editorial_pago_qr', dataUrl);
+      applyPagoMeta({ qrDataUrl: dataUrl });
+    }
+  }
+  function resizeImageFile(file, maxDim, cb){
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = new Image();
+      img.onload = () => {
+        let w = img.width, h = img.height;
+        if (w > h && w > maxDim){ h = Math.round(h * maxDim / w); w = maxDim; }
+        else if (h > maxDim){ w = Math.round(w * maxDim / h); h = maxDim; }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff'; ctx.fillRect(0,0,w,h);
+        ctx.drawImage(img, 0, 0, w, h);
+        cb(canvas.toDataURL('image/jpeg', 0.85));
+      };
+      img.onerror = () => toast('No se pudo leer esa imagen');
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+  document.getElementById('cargarQrPagoBtn').addEventListener('click', ()=>document.getElementById('fQrPago').click());
+  document.getElementById('fQrPago').addEventListener('change', e=>{
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    resizeImageFile(file, 500, dataUrl => { savePagoQR(dataUrl); toast('QR guardado'); });
+    e.target.value = '';
+  });
+  document.getElementById('quitarQrPagoBtn').addEventListener('click', ()=>{
+    if (!confirm('¿Quitar el QR de cobro de este stand?')) return;
+    savePagoQR('');
+  });
+  document.getElementById('mostrarQrPagoBtn').addEventListener('click', ()=>{
+    document.getElementById('qrPagoFull').src = pagoQR;
+    document.getElementById('qrPagoTotal').textContent = document.getElementById('compraTotalForQr').dataset.total || '';
+    document.getElementById('qrPagoOverlay').classList.add('open');
+  });
+  document.getElementById('cerrarQrPago').addEventListener('click', ()=>{
+    document.getElementById('qrPagoOverlay').classList.remove('open');
+  });
 
   let medioPago = 'EF';
   const MEDIO_PAGO_LABELS = { EF: 'Efectivo', TD: 'Débito', TC: 'Crédito', MP: 'MercadoPago' };
