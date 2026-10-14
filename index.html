@@ -530,8 +530,9 @@
     savePagoQR('');
   });
   document.getElementById('mostrarQrPagoBtn').addEventListener('click', ()=>{
+    if (!pagoQR){ toast('Todavía no cargaste el QR de cobro de este stand'); return; }
     document.getElementById('qrPagoFull').src = pagoQR;
-    document.getElementById('qrPagoTotal').textContent = document.getElementById('compraTotalForQr').dataset.total || '';
+    document.getElementById('qrPagoTotal').textContent = fmt(compraTotalActual);
     document.getElementById('qrPagoOverlay').classList.add('open');
   });
   document.getElementById('cerrarQrPago').addEventListener('click', ()=>{
@@ -703,15 +704,18 @@
     bar.style.display = 'flex';
   }
 
+  let compraTotalActual = 0;
   function openCompraOverlay(){
     const items = currentCompraId ? ventasCache.filter(v => v.compraId === currentCompraId) : [];
     if (items.length === 0){ toast('Escaneá al menos un libro antes de cobrar'); return; }
     const total = items.reduce((s,v)=>s+Number((v.precioFinal !== undefined ? v.precioFinal : v.precio)||0),0);
+    compraTotalActual = total;
     document.getElementById('compraItemsList').innerHTML = items.map(v=>
       `<div class="ci-row"><span>${escapeHtml(v.titulo)}</span><span>${fmt(v.precioFinal !== undefined ? v.precioFinal : v.precio)}</span></div>`
     ).join('') + `<div class="ci-total"><span>Total</span><span>${fmt(total)}</span></div>`;
     document.getElementById('fCompradorNombre').value = '';
     document.getElementById('fCompradorCuit').value = '';
+    document.getElementById('mostrarQrPagoBtn').style.display = pagoQR ? '' : 'none';
     document.getElementById('compraOverlay').classList.add('open');
   }
   document.getElementById('cobrarBtn').addEventListener('click', openCompraOverlay);
@@ -1448,6 +1452,10 @@
       snap => { applyFeriaMeta(snap.exists ? snap.data() : {}); },
       err => {}
     ));
+    unsubs.push(base().collection('config').doc('pago').onSnapshot(
+      snap => { applyPagoMeta(snap.exists ? snap.data() : {}); },
+      err => {}
+    ));
   }
 
   function updateStandPill(){
@@ -1496,6 +1504,7 @@
       stockArr.forEach(b=>{ stockCache[b.codigo] = { titulo: b.titulo, precio: b.precio, stock: b.stock }; });
       ventasCache = load(SALES_KEY, []);
       applyFeriaMeta(load('editorial_feria_meta', {}));
+      applyPagoMeta({ qrDataUrl: load('editorial_pago_qr', '') });
       loadMySales(); updateUndoBtn();
       loadCompraId();
       renderBooks(); renderVenta();
