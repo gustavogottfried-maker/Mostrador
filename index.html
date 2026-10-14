@@ -274,6 +274,12 @@
         <button id="cargarQrPagoBtn">Cargar / cambiar QR</button>
         <button class="danger" id="quitarQrPagoBtn" style="display:none;">Quitar QR</button>
       </div>
+      <div class="field" style="margin-top:14px; margin-bottom:0;">
+        <label>Alias de Mercado Pago de este stand (opcional)</label>
+        <input id="fQrPagoAlias" placeholder="Ej: miestand.libros">
+      </div>
+      <div class="isbn" style="margin-top:6px;">Se muestra como texto junto al QR — ayuda si el cliente prefiere escribirlo a mano, o escanearlo con apps que leen el alias directo.</div>
+      <div class="book-actions" style="margin-top:10px;"><button id="guardarAliasBtn">Guardar alias</button></div>
     </div>
 
     <div class="book-card" id="feriaInfoCard">
@@ -395,7 +401,8 @@
   <div class="sheet" style="text-align:center;">
     <h2 class="serif">Escaneá para pagar</h2>
     <p style="color:var(--ink-soft); font-size:0.88rem; margin:0 0 14px;">Con Mercado Pago, Modo o la app de tu banco</p>
-    <img id="qrPagoFull" style="width:min(70vw,280px); height:min(70vw,280px); object-fit:contain; border-radius:14px; border:1px solid var(--line); background:#fff; margin-bottom:16px;">
+    <img id="qrPagoFull" style="width:min(70vw,280px); height:min(70vw,280px); object-fit:contain; border-radius:14px; border:1px solid var(--line); background:#fff; margin-bottom:10px;">
+    <div id="qrPagoAliasDisplay" style="font-family:'IBM Plex Mono', monospace; font-size:0.92rem; color:var(--ink-soft); margin-bottom:14px; display:none;"></div>
     <div style="font-family:'Newsreader',serif; font-size:2rem; font-weight:600; margin-bottom:4px;" id="qrPagoTotal"></div>
     <p style="color:var(--ink-soft); font-size:0.84rem; margin:0 0 18px;">Decile al cliente que escriba este monto al pagar</p>
     <div class="sheet-actions">
@@ -476,8 +483,10 @@
 
   // ---------------- QR de cobro (Mercado Pago / interoperable) ----------------
   let pagoQR = '';
+  let pagoAlias = '';
   function applyPagoMeta(meta){
     pagoQR = (meta && meta.qrDataUrl) || '';
+    pagoAlias = (meta && meta.alias) || '';
     const wrap = document.getElementById('qrPagoPreviewWrap');
     const quitarBtn = document.getElementById('quitarQrPagoBtn');
     if (pagoQR){
@@ -488,16 +497,25 @@
       wrap.style.display = 'none';
       quitarBtn.style.display = 'none';
     }
+    const aliasField = document.getElementById('fQrPagoAlias');
+    if (document.activeElement !== aliasField) aliasField.value = pagoAlias;
   }
-  async function savePagoQR(dataUrl){
+  async function savePagoMeta(partial){
+    const merged = Object.assign({ qrDataUrl: pagoQR, alias: pagoAlias }, partial);
     if (mode === 'shared'){
-      try { await base().collection('config').doc('pago').set({ qrDataUrl: dataUrl }, { merge: true }); }
-      catch(e){ toast('No se pudo guardar el QR'); }
+      try { await base().collection('config').doc('pago').set(merged, { merge: true }); }
+      catch(e){ toast('No se pudo guardar'); }
     } else {
-      save('editorial_pago_qr', dataUrl);
-      applyPagoMeta({ qrDataUrl: dataUrl });
+      save('editorial_pago_qr', merged.qrDataUrl);
+      save('editorial_pago_alias', merged.alias);
+      applyPagoMeta(merged);
     }
   }
+  document.getElementById('guardarAliasBtn').addEventListener('click', ()=>{
+    const alias = document.getElementById('fQrPagoAlias').value.trim();
+    savePagoMeta({ alias });
+    toast('Alias guardado');
+  });
   function resizeImageFile(file, maxDim, cb){
     const reader = new FileReader();
     reader.onload = ev => {
@@ -522,16 +540,19 @@
   document.getElementById('fQrPago').addEventListener('change', e=>{
     const file = e.target.files && e.target.files[0];
     if (!file) return;
-    resizeImageFile(file, 500, dataUrl => { savePagoQR(dataUrl); toast('QR guardado'); });
+    resizeImageFile(file, 500, dataUrl => { savePagoMeta({ qrDataUrl: dataUrl }); toast('QR guardado'); });
     e.target.value = '';
   });
   document.getElementById('quitarQrPagoBtn').addEventListener('click', ()=>{
     if (!confirm('¿Quitar el QR de cobro de este stand?')) return;
-    savePagoQR('');
+    savePagoMeta({ qrDataUrl: '' });
   });
   document.getElementById('mostrarQrPagoBtn').addEventListener('click', ()=>{
     if (!pagoQR){ toast('Todavía no cargaste el QR de cobro de este stand'); return; }
     document.getElementById('qrPagoFull').src = pagoQR;
+    const aliasEl = document.getElementById('qrPagoAliasDisplay');
+    if (pagoAlias){ aliasEl.textContent = 'Alias: ' + pagoAlias; aliasEl.style.display = ''; }
+    else { aliasEl.style.display = 'none'; }
     document.getElementById('qrPagoTotal').textContent = fmt(compraTotalActual);
     document.getElementById('qrPagoOverlay').classList.add('open');
   });
@@ -1504,7 +1525,7 @@
       stockArr.forEach(b=>{ stockCache[b.codigo] = { titulo: b.titulo, precio: b.precio, stock: b.stock }; });
       ventasCache = load(SALES_KEY, []);
       applyFeriaMeta(load('editorial_feria_meta', {}));
-      applyPagoMeta({ qrDataUrl: load('editorial_pago_qr', '') });
+      applyPagoMeta({ qrDataUrl: load('editorial_pago_qr', ''), alias: load('editorial_pago_alias', '') });
       loadMySales(); updateUndoBtn();
       loadCompraId();
       renderBooks(); renderVenta();
