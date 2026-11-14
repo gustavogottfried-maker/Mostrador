@@ -231,6 +231,7 @@
         <button data-pm="TD">💳 Débito</button>
         <button data-pm="TC">💳 Crédito</button>
         <button data-pm="MP">📱 MercadoPago</button>
+        <button data-pm="DNI">🏦 Cuenta DNI</button>
       </div>
     </div>
 
@@ -282,6 +283,22 @@
       <div class="book-actions" style="margin-top:10px;"><button id="guardarAliasBtn">Guardar alias</button></div>
     </div>
 
+    <div class="book-card" id="qrDniCard">
+      <div class="row1"><span class="titulo">QR de Cuenta DNI (Banco Provincia)</span></div>
+      <div class="isbn" style="margin-top:4px;">Opcional. Subí la imagen del QR de cobro de Cuenta DNI de este stand. Si la cargás, aparece un segundo botón al cerrar cada venta, para quien quiera pagar con Cuenta DNI.</div>
+      <div id="qrDniPreviewWrap" style="margin-top:10px; display:none;"><img id="qrDniPreview" style="width:90px; height:90px; object-fit:contain; border-radius:8px; border:1px solid var(--line); background:#fff;"></div>
+      <input type="file" id="fQrDni" accept="image/*" style="display:none;">
+      <div class="book-actions">
+        <button id="cargarQrDniBtn">Cargar / cambiar QR</button>
+        <button class="danger" id="quitarQrDniBtn" style="display:none;">Quitar QR</button>
+      </div>
+      <div class="field" style="margin-top:14px; margin-bottom:0;">
+        <label>Alias para transferencias de Cuenta DNI (opcional)</label>
+        <input id="fQrDniAlias" placeholder="Ej: miestand.dni">
+      </div>
+      <div class="book-actions" style="margin-top:10px;"><button id="guardarAliasDniBtn">Guardar alias</button></div>
+    </div>
+
     <div class="book-card" id="feriaInfoCard">
       <div class="row1"><span class="titulo" id="feriaNombreDisplay">Sin nombre de feria</span></div>
       <div class="isbn" id="feriaSubDisplay" style="margin-top:4px;"></div>
@@ -307,6 +324,7 @@
     </div>
 
     <button class="scan-btn" id="pdfBtn" style="margin-top:18px;">📄 Generar resumen en PDF</button>
+    <div id="buildTag" style="margin-top:14px; text-align:center; font-size:0.72rem; color:var(--ink-soft);">Versión de la app: 14-nov-2026 (d) · lectura única + aviso de repetidos</div>
 
     <div class="book-card" style="margin-top:26px; border-color: var(--red);">
       <div class="row1"><span class="titulo" style="color:var(--red);">Nueva feria</span></div>
@@ -388,6 +406,7 @@
     <h2 class="serif">Cerrar venta</h2>
     <div id="compraItemsList" class="compra-items"></div>
     <button class="scan-btn" id="mostrarQrPagoBtn" style="margin-top:4px; display:none;">💳 Cobrar con QR</button>
+    <button class="scan-btn" id="mostrarQrDniBtn" style="margin-top:4px; display:none;">🏦 Cobrar con Cuenta DNI</button>
     <div class="field"><label>Nombre del comprador (opcional)</label><input id="fCompradorNombre" placeholder="Persona u organización"></div>
     <div class="field"><label>CUIT (opcional, para facturar)</label><input id="fCompradorCuit" inputmode="numeric" placeholder="20-12345678-9"></div>
     <div class="sheet-actions">
@@ -399,8 +418,8 @@
 
 <div class="overlay" id="qrPagoOverlay">
   <div class="sheet" style="text-align:center;">
-    <h2 class="serif">Escaneá para pagar</h2>
-    <p style="color:var(--ink-soft); font-size:0.88rem; margin:0 0 14px;">Con Mercado Pago, Modo o la app de tu banco</p>
+    <h2 class="serif" id="qrPagoTitle">Escaneá para pagar</h2>
+    <p style="color:var(--ink-soft); font-size:0.88rem; margin:0 0 14px;" id="qrPagoSub">Con Mercado Pago, Modo o la app de tu banco</p>
     <img id="qrPagoFull" style="width:min(70vw,280px); height:min(70vw,280px); object-fit:contain; border-radius:14px; border:1px solid var(--line); background:#fff; margin-bottom:10px;">
     <div id="qrPagoAliasDisplay" style="font-family:'IBM Plex Mono', monospace; font-size:0.92rem; color:var(--ink-soft); margin-bottom:14px; display:none;"></div>
     <div style="font-family:'Newsreader',serif; font-size:2rem; font-weight:600; margin-bottom:4px;" id="qrPagoTotal"></div>
@@ -484,9 +503,18 @@
   // ---------------- QR de cobro (Mercado Pago / interoperable) ----------------
   let pagoQR = '';
   let pagoAlias = '';
+  let pagoQRDni = '';
+  let pagoAliasDni = '';
   function applyPagoMeta(meta){
     pagoQR = (meta && meta.qrDataUrl) || '';
     pagoAlias = (meta && meta.alias) || '';
+    pagoQRDni = (meta && meta.qrDniDataUrl) || '';
+    pagoAliasDni = (meta && meta.aliasDni) || '';
+    if (pagoQRDni){ document.getElementById('qrDniPreview').src = pagoQRDni; }
+    document.getElementById('qrDniPreviewWrap').style.display = pagoQRDni ? '' : 'none';
+    document.getElementById('quitarQrDniBtn').style.display = pagoQRDni ? '' : 'none';
+    const aliasDniField = document.getElementById('fQrDniAlias');
+    if (document.activeElement !== aliasDniField) aliasDniField.value = pagoAliasDni;
     const wrap = document.getElementById('qrPagoPreviewWrap');
     const quitarBtn = document.getElementById('quitarQrPagoBtn');
     if (pagoQR){
@@ -501,13 +529,15 @@
     if (document.activeElement !== aliasField) aliasField.value = pagoAlias;
   }
   async function savePagoMeta(partial){
-    const merged = Object.assign({ qrDataUrl: pagoQR, alias: pagoAlias }, partial);
+    const merged = Object.assign({ qrDataUrl: pagoQR, alias: pagoAlias, qrDniDataUrl: pagoQRDni, aliasDni: pagoAliasDni }, partial);
     if (mode === 'shared'){
       try { await base().collection('config').doc('pago').set(merged, { merge: true }); }
       catch(e){ toast('No se pudo guardar'); }
     } else {
       save('editorial_pago_qr', merged.qrDataUrl);
       save('editorial_pago_alias', merged.alias);
+      save('editorial_pago_qr_dni', merged.qrDniDataUrl);
+      save('editorial_pago_alias_dni', merged.aliasDni);
       applyPagoMeta(merged);
     }
   }
@@ -547,21 +577,44 @@
     if (!confirm('¿Quitar el QR de cobro de este stand?')) return;
     savePagoMeta({ qrDataUrl: '' });
   });
-  document.getElementById('mostrarQrPagoBtn').addEventListener('click', ()=>{
-    if (!pagoQR){ toast('Todavía no cargaste el QR de cobro de este stand'); return; }
-    document.getElementById('qrPagoFull').src = pagoQR;
+  function abrirQrCobro(tipo){
+    const esDni = tipo === 'dni';
+    const qr = esDni ? pagoQRDni : pagoQR;
+    const alias = esDni ? pagoAliasDni : pagoAlias;
+    if (!qr){ toast('Todavía no cargaste ese QR de cobro'); return; }
+    document.getElementById('qrPagoTitle').textContent = esDni ? 'Pagá con Cuenta DNI' : 'Escaneá para pagar';
+    document.getElementById('qrPagoSub').textContent = esDni ? 'Desde la app Cuenta DNI de Banco Provincia' : 'Con Mercado Pago, Modo o la app de tu banco';
+    document.getElementById('qrPagoFull').src = qr;
     const aliasEl = document.getElementById('qrPagoAliasDisplay');
-    if (pagoAlias){ aliasEl.textContent = 'Alias: ' + pagoAlias; aliasEl.style.display = ''; }
+    if (alias){ aliasEl.textContent = 'Alias: ' + alias; aliasEl.style.display = ''; }
     else { aliasEl.style.display = 'none'; }
     document.getElementById('qrPagoTotal').textContent = fmt(compraTotalActual);
     document.getElementById('qrPagoOverlay').classList.add('open');
+  }
+  document.getElementById('mostrarQrPagoBtn').addEventListener('click', ()=>abrirQrCobro('mp'));
+  document.getElementById('mostrarQrDniBtn').addEventListener('click', ()=>abrirQrCobro('dni'));
+  document.getElementById('guardarAliasDniBtn').addEventListener('click', ()=>{
+    savePagoMeta({ aliasDni: document.getElementById('fQrDniAlias').value.trim() });
+    toast('Alias guardado');
+  });
+  document.getElementById('cargarQrDniBtn').addEventListener('click', ()=>document.getElementById('fQrDni').click());
+  document.getElementById('fQrDni').addEventListener('change', e=>{
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    resizeImageFile(file, 500, dataUrl => { savePagoMeta({ qrDniDataUrl: dataUrl }); toast('QR de Cuenta DNI guardado'); });
+    e.target.value = '';
+  });
+  document.getElementById('quitarQrDniBtn').addEventListener('click', ()=>{
+    if (!confirm('¿Quitar el QR de Cuenta DNI de este stand?')) return;
+    savePagoMeta({ qrDniDataUrl: '' });
   });
   document.getElementById('cerrarQrPago').addEventListener('click', ()=>{
     document.getElementById('qrPagoOverlay').classList.remove('open');
   });
 
   let medioPago = 'EF';
-  const MEDIO_PAGO_LABELS = { EF: 'Efectivo', TD: 'Débito', TC: 'Crédito', MP: 'MercadoPago' };
+  const MEDIO_PAGO_LABELS = { EF: 'Efectivo', TD: 'Débito', TC: 'Crédito', MP: 'MercadoPago', DNI: 'Cuenta DNI' };
+  const medioPagoCeros = () => Object.keys(MEDIO_PAGO_LABELS).reduce((o,k)=>{ o[k]=0; return o; }, {});
   function setMedioPago(pm, skipSave){
     medioPago = pm;
     document.querySelectorAll('#paymentChips button').forEach(b=>{
@@ -658,7 +711,7 @@
     document.getElementById('undoBtn').disabled = mySaleIds.length === 0;
     document.getElementById('resetBtn').disabled = ventasHoy.length === 0;
 
-    const breakdown = { EF: 0, TD: 0, TC: 0, MP: 0 };
+    const breakdown = medioPagoCeros();
     ventasHoy.forEach(v=>{
       const key = breakdown.hasOwnProperty(v.medioPago) ? v.medioPago : 'EF';
       breakdown[key] += Number((v.precioFinal !== undefined ? v.precioFinal : v.precio)||0);
@@ -737,6 +790,7 @@
     document.getElementById('fCompradorNombre').value = '';
     document.getElementById('fCompradorCuit').value = '';
     document.getElementById('mostrarQrPagoBtn').style.display = pagoQR ? '' : 'none';
+    document.getElementById('mostrarQrDniBtn').style.display = pagoQRDni ? '' : 'none';
     document.getElementById('compraOverlay').classList.add('open');
   }
   document.getElementById('cobrarBtn').addEventListener('click', openCompraOverlay);
@@ -892,6 +946,10 @@
     if (!codigo && !editingCodigo) codigo = generarCodigoInterno();
     if (!codigo){ toast('Falta el código de barras'); return; }
     if (!editingCodigo && stockCache[codigo]){ toast('Ese código ya está cargado'); return; }
+    if (!editingCodigo){
+      const igual = Object.keys(stockCache).find(k => normTitulo(stockCache[k].titulo) === normTitulo(titulo));
+      if (igual && !confirm(`Ya tenés cargado "${stockCache[igual].titulo}" con otro código. Si el código impreso del libro se lee como dos distintos, conviene usar el que ya existe. ¿Cargarlo igual como libro nuevo?`)) return;
+    }
 
     await Store.saveBook(codigo, { titulo, precio, stock: stockVal });
     document.getElementById('bookOverlay').classList.remove('open');
@@ -911,6 +969,7 @@
     const res = await Store.undoSale(id);
     if (res && res.ok){
       mySaleIds.pop(); persistMySales();
+      lastSale = null;
       toast('Se deshizo: ' + res.titulo);
     } else if (res && res.gone){
       mySaleIds.pop(); persistMySales();
@@ -984,11 +1043,15 @@
     return base + raw;
   }
 
+  let scanArmed = false;
   function startScan(){
+    if (scanArmed) return; // ya hay una cámara abierta o abriéndose
     const DetectorClass = window.__ZXingBarcodeDetector || (typeof BarcodeDetector !== 'undefined' ? BarcodeDetector : null);
     if (DetectorClass){
+      scanArmed = true;
       startScanBD(DetectorClass);
     } else if (typeof Html5Qrcode !== 'undefined'){
+      scanArmed = true;
       startScanLegacy();
     } else {
       toast('No se pudo cargar el lector de cámara (revisá tu conexión a internet).');
@@ -1007,9 +1070,11 @@
       });
     } catch(err){
       console.error('camera start failed', err);
+      scanArmed = false;
       toast(cameraErrorMessage(err));
       return;
     }
+    if (!scanArmed){ stream.getTracks().forEach(t=>{ try{ t.stop(); }catch(e){} }); return; } // la cerraron mientras abría
     bdStream = stream;
     document.getElementById('reader-wrap').classList.add('open');
     const readerDiv = document.getElementById('reader');
@@ -1025,8 +1090,10 @@
       if (!bdStream) return;
       try {
         const codes = await bdDetector.detect(bdVideoEl);
-        if (codes && codes.length) { onScanSuccess(codes[0].rawValue); }
+        if (!bdStream) return;
+        if (codes && codes.length) { onScanSuccess(codes[0].rawValue); return; }
       } catch(e){}
+      if (!bdStream) return;
       bdRAF = requestAnimationFrame(loop);
     };
     bdRAF = requestAnimationFrame(loop);
@@ -1093,6 +1160,7 @@
       .then(setupCameraControls)
       .catch(err=>{
         console.error('camera start failed', err);
+        scanArmed = false;
         toast(cameraErrorMessage(err));
         document.getElementById('reader-wrap').classList.remove('open');
       });
@@ -1130,6 +1198,7 @@
     }
   }
   function stopScan(){
+    scanArmed = false;
     if (bdStream){ stopScanBD(); return; }
     document.getElementById('reader-wrap').classList.remove('open');
     if (html5QrCode){
@@ -1147,12 +1216,31 @@
     }
   }
   function onScanSuccess(decodedText){
-    const now = Date.now();
-    if (decodedText === lastCode && now - lastCodeAt < 2500) return;
-    lastCode = decodedText; lastCodeAt = now;
+    // Cada apertura de cámara admite UNA sola lectura: la llave se baja en el acto,
+    // sin esperar a que la cámara termine de apagarse, y sólo vuelve a subir al reabrir.
+    if (!scanArmed || sellInFlight) return;
+    scanArmed = false;
+    stopScan();
     handleScannedCode(decodedText);
   }
+  let sellInFlight = false;
+  let lastSale = null; // { codigo, titulo, at } de la última venta registrada en este celular
+  const normTitulo = t => String(t||'').trim().toLowerCase().replace(/\s+/g,' ');
   async function handleScannedCode(codigo){
+    if (sellInFlight) return;
+    sellInFlight = true;
+    try {
+      const tituloLeido = stockCache[codigo] && stockCache[codigo].titulo;
+      const mismoLibro = lastSale && (lastSale.codigo === codigo || (tituloLeido && normTitulo(tituloLeido) === lastSale.tituloNorm));
+      if (mismoLibro && Date.now() - lastSale.at < 10 * 60 * 1000){
+        const t = tituloLeido || 'este libro';
+        if (!confirm(`Recién registraste "${t}". ¿Querés registrar otra copia del mismo libro?`)) return;
+      }
+      await procesarCodigoLeido(codigo);
+    }
+    finally { sellInFlight = false; }
+  }
+  async function procesarCodigoLeido(codigo){
     const result = await Store.sell(codigo);
     if (result.status === 'not_found'){
       if (navigator.vibrate) navigator.vibrate(80);
@@ -1164,6 +1252,7 @@
     } else if (result.status === 'ok'){
       if (navigator.vibrate) navigator.vibrate(40);
       mySaleIds.push(result.saleId); persistMySales(); updateUndoBtn();
+      lastSale = { codigo, tituloNorm: normTitulo(result.titulo), at: Date.now() };
       if (mode === 'local'){ renderVenta(); renderBooks(); }
       toast(`Vendido: ${result.titulo} — ${fmt(result.precio)}`);
       stopScan();
@@ -1185,7 +1274,7 @@
     document.getElementById('grandTotalAmount').textContent = fmt(total);
     document.getElementById('grandTotalCount').textContent = ventasCache.length + (ventasCache.length===1?' libro':' libros');
 
-    const bd = { EF: 0, TD: 0, TC: 0, MP: 0 };
+    const bd = medioPagoCeros();
     ventasCache.forEach(v=>{
       const k = bd.hasOwnProperty(v.medioPago) ? v.medioPago : 'EF';
       bd[k] += Number((v.precioFinal !== undefined ? v.precioFinal : v.precio)||0);
@@ -1230,7 +1319,7 @@
     doc.setFont('helvetica','normal'); doc.setFontSize(10);
     doc.text('(' + ventasCache.length + (ventasCache.length===1?' libro)':' libros)'), marginX, y); y += 8;
 
-    const bd = { EF: 0, TD: 0, TC: 0, MP: 0 };
+    const bd = medioPagoCeros();
     ventasCache.forEach(v=>{ const k = bd.hasOwnProperty(v.medioPago)?v.medioPago:'EF'; bd[k] += Number((v.precioFinal !== undefined ? v.precioFinal : v.precio)||0); });
     Object.keys(MEDIO_PAGO_LABELS).forEach(k=>{
       doc.text(`${MEDIO_PAGO_LABELS[k]}: ${fmt(bd[k])}`, marginX, y); y += 5.5;
@@ -1525,7 +1614,7 @@
       stockArr.forEach(b=>{ stockCache[b.codigo] = { titulo: b.titulo, precio: b.precio, stock: b.stock }; });
       ventasCache = load(SALES_KEY, []);
       applyFeriaMeta(load('editorial_feria_meta', {}));
-      applyPagoMeta({ qrDataUrl: load('editorial_pago_qr', ''), alias: load('editorial_pago_alias', '') });
+      applyPagoMeta({ qrDataUrl: load('editorial_pago_qr', ''), alias: load('editorial_pago_alias', ''), qrDniDataUrl: load('editorial_pago_qr_dni', ''), aliasDni: load('editorial_pago_alias_dni', '') });
       loadMySales(); updateUndoBtn();
       loadCompraId();
       renderBooks(); renderVenta();
