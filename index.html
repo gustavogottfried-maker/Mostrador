@@ -134,6 +134,13 @@
   .book-card .row2 { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
   .book-card .isbn { font-family: 'IBM Plex Mono', monospace; font-size: 0.74rem; color: var(--ink-soft); }
   .stock-pill { font-size: 0.8rem; padding: 3px 10px; border-radius: 999px; font-weight: 500; background: var(--gold-soft); color: var(--navy-deep); }
+  .stock-pill.low { background: #fdecea; border: 1px solid var(--red); color: var(--red); font-weight: 600; }
+  .book-card.is-low { border-left: 4px solid var(--red); }
+  .low-banner { display:none; background:#fdecea; border:1px solid var(--red); color:var(--red); border-radius:12px; padding:10px 14px; margin-bottom:12px; font-size:0.9rem; line-height:1.4; }
+  .low-banner.show { display:block; }
+  .low-banner b { font-weight:600; }
+  nav.tabs button .tab-dot { display:none; background:var(--red); color:#fff; border-radius:999px; font-size:0.68rem; font-weight:600; padding:1px 6px; margin-left:4px; vertical-align:middle; }
+  nav.tabs button .tab-dot.show { display:inline-block; }
   .stock-pill.zero { background: transparent; border: 1px solid var(--red); color: var(--red); }
   .book-actions { display: flex; gap: 8px; margin-top: 10px; }
   .book-actions button { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--line); background: transparent; color: var(--ink-soft); font-family: inherit; font-size: 0.82rem; cursor: pointer; }
@@ -261,6 +268,7 @@
 
   <section id="panel-inventario" class="tab-panel">
     <input class="inv-search" id="invSearch" placeholder="Buscar por título o código…">
+    <div class="low-banner" id="lowBanner"></div>
     <button class="add-btn" id="addBookBtn">+ Agregar libro al inventario</button>
     <div id="bookList"></div>
   </section>
@@ -324,7 +332,7 @@
     </div>
 
     <button class="scan-btn" id="pdfBtn" style="margin-top:18px;">📄 Generar resumen en PDF</button>
-    <div id="buildTag" style="margin-top:14px; text-align:center; font-size:0.72rem; color:var(--ink-soft);">Versión de la app: 15-nov-2026 (f) · varios stands + cámara + aviso de repetidos</div>
+    <div id="buildTag" style="margin-top:14px; text-align:center; font-size:0.72rem; color:var(--ink-soft);">Versión de la app: 15-nov-2026 (g) · aviso de poco stock</div>
 
     <div class="book-card" style="margin-top:26px; border-color: var(--red);">
       <div class="row1"><span class="titulo" style="color:var(--red);">Nueva feria</span></div>
@@ -336,7 +344,7 @@
 
 <nav class="tabs">
   <button data-tab="vender" class="active">Vender</button>
-  <button data-tab="inventario">Inventario</button>
+  <button data-tab="inventario">Inventario<span class="tab-dot" id="lowDot"></span></button>
   <button data-tab="resumen">Resumen</button>
 </nav>
 
@@ -813,7 +821,22 @@
   });
 
   // ---------------- Render: inventario ----------------
+  const LOW_STOCK = 1; // avisar cuando quedan 1 o 0
+  function updateLowStock(){
+    const arr = Object.keys(stockCache).map(k=>stockCache[k]);
+    const sin = arr.filter(b=>Number(b.stock)<=0).length;
+    const poco = arr.filter(b=>Number(b.stock)>0 && Number(b.stock)<=LOW_STOCK).length;
+    const ban = document.getElementById('lowBanner'), dot = document.getElementById('lowDot');
+    if (!ban || !dot) return;
+    const partes = [];
+    if (sin) partes.push(`<b>${sin} ${sin===1?'título sin stock':'títulos sin stock'}</b>`);
+    if (poco) partes.push(`<b>${poco} ${poco===1?'título con 1 sola unidad':'títulos con 1 sola unidad'}</b>`);
+    ban.innerHTML = partes.length ? '⚠ ' + partes.join(' · ') : '';
+    ban.classList.toggle('show', partes.length>0);
+    dot.textContent = sin + poco; dot.classList.toggle('show', sin+poco>0);
+  }
   function renderBooks(){
+    updateLowStock();
     const q = document.getElementById('invSearch').value.trim().toLowerCase();
     const list = document.getElementById('bookList');
     const items = Object.keys(stockCache).map(codigo=>({codigo, ...stockCache[codigo]}))
@@ -823,11 +846,11 @@
       return;
     }
     list.innerHTML = items.sort((a,b)=>(a.titulo||'').localeCompare(b.titulo||'')).map(b=>`
-      <div class="book-card" data-codigo="${escapeHtml(b.codigo)}">
+      <div class="book-card ${Number(b.stock)<=LOW_STOCK?'is-low':''}" data-codigo="${escapeHtml(b.codigo)}">
         <div class="row1"><span class="titulo">${escapeHtml(b.titulo)}</span><span class="precio">${fmt(b.precio)}</span></div>
         <div class="row2">
           <span class="isbn">${String(b.codigo).startsWith('SINCOD-') ? 'sin código de barras' : escapeHtml(b.codigo)}</span>
-          <span class="stock-pill ${Number(b.stock)<=0?'zero':''}">${Number(b.stock)<=0?'sin stock':b.stock + ' en stock'}</span>
+          <span class="stock-pill ${Number(b.stock)<=0?'zero':(Number(b.stock)<=LOW_STOCK?'low':'')}">${Number(b.stock)<=0?'sin stock':(Number(b.stock)===1?'⚠ queda 1':b.stock + ' en stock')}</span>
         </div>
         <div class="book-actions"><button class="sell-btn" ${Number(b.stock)<=0?'disabled':''}>Vender</button><button class="edit-btn">Editar</button><button class="danger del-btn">Eliminar</button></div>
       </div>
@@ -1282,6 +1305,7 @@
     finally { sellInFlight = false; }
   }
   async function procesarCodigoLeido(codigo){
+    const stockAntes = stockCache[codigo] ? Number(stockCache[codigo].stock) : NaN;
     const result = await Store.sell(codigo);
     if (result.status === 'not_found'){
       if (navigator.vibrate) navigator.vibrate(80);
@@ -1295,7 +1319,11 @@
       mySaleIds.push(result.saleId); persistMySales(); updateUndoBtn();
       lastSale = { codigo, tituloNorm: normTitulo(result.titulo), at: Date.now() };
       if (mode === 'local'){ renderVenta(); renderBooks(); }
-      toast(`Vendido: ${result.titulo} — ${fmt(result.precio)}`);
+      const quedan = stockAntes - 1;
+      let msg = `Vendido: ${result.titulo} — ${fmt(result.precio)}`;
+      if (quedan === 0) msg += ' · ⚠ era el último';
+      else if (quedan > 0 && quedan <= LOW_STOCK) msg += ` · ⚠ queda ${quedan}`;
+      toast(msg);
       stopScan();
     } else {
       toast('No se pudo registrar la venta, probá de nuevo');
