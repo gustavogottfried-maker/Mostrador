@@ -324,7 +324,7 @@
     </div>
 
     <button class="scan-btn" id="pdfBtn" style="margin-top:18px;">📄 Generar resumen en PDF</button>
-    <div id="buildTag" style="margin-top:14px; text-align:center; font-size:0.72rem; color:var(--ink-soft);">Versión de la app: 14-nov-2026 (d) · lectura única + aviso de repetidos</div>
+    <div id="buildTag" style="margin-top:14px; text-align:center; font-size:0.72rem; color:var(--ink-soft);">Versión de la app: 15-nov-2026 (e) · cámara + aviso de repetidos</div>
 
     <div class="book-card" style="margin-top:26px; border-color: var(--red);">
       <div class="row1"><span class="titulo" style="color:var(--red);">Nueva feria</span></div>
@@ -349,6 +349,7 @@
     </div>
   </div>
   <div id="reader"></div>
+  <div id="scanDiag" style="position:absolute; left:0; right:0; top:calc(62px + env(safe-area-inset-top, 0px)); text-align:center; z-index:61; font-size:0.7rem; color:rgba(255,255,255,0.65); pointer-events:none;"></div>
   <div class="zoom-row" id="zoomRow">
     <button id="zoomOut">–</button>
     <span id="zoomLabel">1.0×</span>
@@ -1060,13 +1061,28 @@
 
   // --- Motor principal: lector WASM (ZXing-C++), con el nativo del navegador como respaldo ---
   let bdStream = null, bdVideoEl = null, bdRAF = null, bdDetector = null;
+  // Los iPhone con dos cámaras traseras a veces abren la ultra gran angular, que no enfoca de cerca.
+  // Si pasa, se pide de nuevo la cámara trasera principal.
+  async function preferMainBackCamera(stream){
+    try {
+      const track = stream.getVideoTracks()[0];
+      const label = ((track && track.label) || '').toLowerCase();
+      if (!/ultra|wide angle|gran angular/.test(label)) return stream;
+      const devs = (await navigator.mediaDevices.enumerateDevices()).filter(d=>d.kind === 'videoinput');
+      const main = devs.find(d=>/back|rear|trasera/i.test(d.label) && !/ultra|tele|gran angular/i.test(d.label));
+      if (!main) return stream;
+      const s2 = await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: main.deviceId }, width: { ideal: 1920 }, height: { ideal: 1080 } } });
+      stream.getTracks().forEach(t=>{ try{ t.stop(); }catch(e){} });
+      return s2;
+    } catch(e){ return stream; }
+  }
   async function startScanBD(DetectorClass){
     try { bdDetector = new DetectorClass({ formats: ['ean_13','ean_8','upc_a','upc_e','code_128'] }); }
     catch(e){ startScanLegacy(); return; }
     let stream;
     try {
       stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'environment', width: { ideal: 2560 }, height: { ideal: 1440 } }
+        video: { facingMode: 'environment', width: { ideal: 1920 }, height: { ideal: 1080 } }
       });
     } catch(err){
       console.error('camera start failed', err);
@@ -1075,6 +1091,8 @@
       return;
     }
     if (!scanArmed){ stream.getTracks().forEach(t=>{ try{ t.stop(); }catch(e){} }); return; } // la cerraron mientras abría
+    stream = await preferMainBackCamera(stream);
+    if (!scanArmed){ stream.getTracks().forEach(t=>{ try{ t.stop(); }catch(e){} }); return; }
     bdStream = stream;
     document.getElementById('reader-wrap').classList.add('open');
     const readerDiv = document.getElementById('reader');
@@ -1086,13 +1104,34 @@
     bdVideoEl.srcObject = stream;
     try { await bdVideoEl.play(); } catch(e){}
     setupCameraControlsBD(stream);
+    try {
+      const tr = stream.getVideoTracks()[0];
+      const st = tr.getSettings ? tr.getSettings() : {};
+      document.getElementById('scanDiag').textContent = (tr.label || 'cámara') + ' · ' + (st.width||'?') + '×' + (st.height||'?');
+      const caps0 = tr.getCapabilities ? tr.getCapabilities() : {};
+      if (caps0.focusMode && caps0.focusMode.indexOf('continuous') >= 0) tr.applyConstraints({ advanced: [{ focusMode: 'continuous' }] }).catch(()=>{});
+    } catch(e){}
+    let detectErrors = 0;
     const loop = async () => {
       if (!bdStream) return;
       try {
         const codes = await bdDetector.detect(bdVideoEl);
         if (!bdStream) return;
+        detectErrors = 0;
         if (codes && codes.length) { onScanSuccess(codes[0].rawValue); return; }
-      } catch(e){}
+      } catch(e){
+        detectErrors++;
+        if (detectErrors >= 25 && typeof Html5Qrcode !== 'undefined'){
+          // El lector principal no funciona en este celular: se pasa solo al de respaldo.
+          console.error('detector failed, using fallback engine', e);
+          stopScanBD();
+          document.getElementById('reader').innerHTML = '';
+          document.getElementById('scanDiag').textContent = 'lector de respaldo';
+          startScanLegacy();
+          return;
+        }
+        if (detectErrors === 25) document.getElementById('scanDiag').textContent = 'el lector no responde en este celular';
+      }
       if (!bdStream) return;
       bdRAF = requestAnimationFrame(loop);
     };
@@ -1153,7 +1192,7 @@
           const h = Math.floor(Math.min(viewfinderHeight * 0.35, 170));
           return { width: w, height: h };
         },
-        videoConstraints: { facingMode: "environment", width: { ideal: 2560 }, height: { ideal: 1440 } }
+        videoConstraints: { facingMode: "environment", width: { ideal: 1920 }, height: { ideal: 1080 } }
       },
       onScanSuccess, ()=>{}
     )
